@@ -1,0 +1,41 @@
+# DivyaSeva - Docker setup
+#
+# Production (nginx serving the compiled web app):
+#   docker compose up --build -d
+#   open http://localhost:8080
+#
+# Development (Flutter web-server with live source mount):
+#   docker compose --profile dev up --build
+#   open http://localhost:8080
+
+name: pandit_booking
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pandit-booking:latest
+    container_name: pandit_booking-web
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    restart: unless-stopped
+
+  dev:
+    profiles: ["dev"]
+    image: ghcr.io/cirruslabs/flutter:stable
+    container_name: pandit_booking-dev
+    working_dir: /app
+    command: >
+      bash -lc "flutter pub get &&
+      flutter run -d web-server --web-hostname 0.0.0.0 --web-port 8080"
+    ports:
+      - "${WEB_PORT:-8080}:8080"
+    volumes:
+      - .:/app
+      - pub-cache:/root/.pub-cache
+    stdin_open: true
+    tty: true
+
+volumes:
+  pub-cache:

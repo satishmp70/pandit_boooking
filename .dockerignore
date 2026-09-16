@@ -1,0 +1,40 @@
+# Version control / IDE
+.git
+.gitignore
+.gitattributes
+.idea
+.vscode
+.claude
+*.iml
+**/*.iml
+
+# Dart / Flutter generated output
+.dart_tool
+.flutter-plugins
+.flutter-plugins-dependencies
+build
+coverage
+*.log
+
+# Local / OS noise
+.DS_Store
+Thumbs.db
+*.swp
+
+# Platform projects are not needed for a web build
+android
+ios
+linux
+macos
+windows
+
+# Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Docs / archives
+README.md
+archive
+*.zip
+*.docx
