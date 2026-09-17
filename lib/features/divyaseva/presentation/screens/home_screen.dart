@@ -110,9 +110,12 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 760),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                     DvCard(
                       color: DvColors.greenSoft,
                       borderColor: const Color(0xFFDCEBE1),
@@ -158,21 +161,26 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    GridView.count(
-                      crossAxisCount: 3,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      mainAxisSpacing: 9,
-                      crossAxisSpacing: 9,
-                      childAspectRatio: 0.95,
-                      children: [
-                        _tile(context, Icons.home_outlined, 'Griha Pravesh', 'griha-pravesh'),
-                        _tile(context, Icons.description_outlined, 'Satyanarayan', 'satyanarayan'),
-                        _tile(context, Icons.wb_sunny_outlined, 'Ganesh Puja', 'ganesh-puja'),
-                        _tile(context, Icons.diamond_outlined, 'Lakshmi Puja', 'lakshmi-puja'),
-                        _tile(context, Icons.local_fire_department_outlined, 'Havan', 'havan'),
-                        _tile(context, Icons.more_horiz, 'View all', null),
-                      ],
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final columns = constraints.maxWidth >= 560 ? 6 : 3;
+                        return GridView.count(
+                          crossAxisCount: columns,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          mainAxisSpacing: 9,
+                          crossAxisSpacing: 9,
+                          childAspectRatio: columns == 6 ? 1.15 : 0.95,
+                          children: [
+                            _tile(context, Icons.home_outlined, 'Griha Pravesh', 'griha-pravesh'),
+                            _tile(context, Icons.description_outlined, 'Satyanarayan', 'satyanarayan'),
+                            _tile(context, Icons.wb_sunny_outlined, 'Ganesh Puja', 'ganesh-puja'),
+                            _tile(context, Icons.diamond_outlined, 'Lakshmi Puja', 'lakshmi-puja'),
+                            _tile(context, Icons.local_fire_department_outlined, 'Havan', 'havan'),
+                            _tile(context, Icons.more_horiz, 'View all', null),
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 16),
                     DvCard(
@@ -262,7 +270,9 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ],
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),

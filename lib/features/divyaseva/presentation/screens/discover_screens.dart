@@ -363,7 +363,7 @@ class ServiceDetailScreen extends StatelessWidget {
                 style: DvText.body(size: 13.5, color: DvColors.ink2),
               ),
               const SizedBox(height: 16),
-              const DvSectionLabel('Choose a variant'),
+               Text('Choose a variant', style: DvText.eyebrow()),
               const SizedBox(height: 10),
               for (final variant in state.variants) ...[
                 DvOptionRow(

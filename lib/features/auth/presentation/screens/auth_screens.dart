@@ -66,10 +66,29 @@ class SplashScreen extends StatelessWidget {
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final TextEditingController _phoneController;
+
   static const _languages = ['English', '\u0939\u093f\u0902\u0926\u0940', '\u092e\u0930\u093e\u0920\u0940'];
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneController = TextEditingController(text: '98204 41207');
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +99,8 @@ class LoginScreen extends StatelessWidget {
           cta: DvButton(
             label: state.isBusy ? 'Sending\u2026' : 'Send OTP',
             onTap: () {
-              context.read<AuthBloc>().add(AuthOtpRequested(state.phone));
+              FocusManager.instance.primaryFocus?.unfocus();
+              context.read<AuthBloc>().add(AuthOtpRequested('+91 ${_phoneController.text.trim()}'));
               context.go(Routes.otpPath);
             },
           ),
@@ -95,29 +115,26 @@ class LoginScreen extends StatelessWidget {
                 style: DvText.body(size: 13.5, color: DvColors.ink2),
               ),
               const SizedBox(height: 18),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-                decoration: BoxDecoration(
-                  color: DvColors.surface,
-                  border: Border.all(color: DvColors.kum, width: 1.4),
-                  borderRadius: BorderRadius.circular(13),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Mobile number', style: DvText.eyebrow()),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text('+91', style: DvText.mono(size: 14, color: DvColors.ink2)),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text('98204 41207', style: DvText.mono(size: 14, weight: FontWeight.w600)),
-                        ),
-                        const DvPill('\u2713', tone: DvTone.green),
-                      ],
-                    ),
-                  ],
+              TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                textInputAction: TextInputAction.done,
+                style: DvText.mono(size: 14, weight: FontWeight.w600),
+                decoration: InputDecoration(
+                  labelText: 'Mobile number',
+                  prefixText: '+91  ',
+                  prefixStyle: DvText.mono(size: 14, color: DvColors.ink2),
+                  suffixIcon: const Icon(Icons.verified, color: DvColors.green),
+                  filled: true,
+                  fillColor: DvColors.surface,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(13),
+                    borderSide: const BorderSide(color: DvColors.line),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(13),
+                    borderSide: const BorderSide(color: DvColors.kum, width: 1.4),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
@@ -168,8 +185,39 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class OtpScreen extends StatelessWidget {
+class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key});
+
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  late final List<TextEditingController> _codeControllers;
+  late final List<FocusNode> _codeFocusNodes;
+
+  @override
+  void initState() {
+    super.initState();
+    const demoCode = '492700';
+    _codeControllers = [
+      for (var i = 0; i < 6; i++) TextEditingController(text: demoCode[i]),
+    ];
+    _codeFocusNodes = [for (var i = 0; i < 6; i++) FocusNode()];
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _codeControllers) {
+      controller.dispose();
+    }
+    for (final node in _codeFocusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  String get _code => _codeControllers.map((controller) => controller.text).join();
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +232,10 @@ class OtpScreen extends StatelessWidget {
           backPath: Routes.loginPath,
           cta: DvButton(
             label: state.isBusy ? 'Verifying\u2026' : 'Verify and continue',
-            onTap: () => context.read<AuthBloc>().add(const AuthOtpSubmitted('492700')),
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+              context.read<AuthBloc>().add(AuthOtpSubmitted(_code));
+            },
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,20 +257,34 @@ class OtpScreen extends StatelessWidget {
                   for (var i = 0; i < 6; i++) ...[
                     if (i > 0) const SizedBox(width: 8),
                     Expanded(
-                      child: Container(
-                        height: 56,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: DvColors.surface,
-                          border: Border.all(
-                            color: i < 4 ? DvColors.kum : DvColors.line,
-                            width: 1.4,
+                      child: TextField(
+                        controller: _codeControllers[i],
+                        focusNode: _codeFocusNodes[i],
+                        autofocus: i == 4,
+                        keyboardType: TextInputType.number,
+                        textAlign: TextAlign.center,
+                        maxLength: 1,
+                        style: DvText.mono(size: 20, weight: FontWeight.w600),
+                        onChanged: (value) {
+                          if (value.isNotEmpty && i < 5) {
+                            _codeFocusNodes[i + 1].requestFocus();
+                          } else if (value.isEmpty && i > 0) {
+                            _codeFocusNodes[i - 1].requestFocus();
+                          }
+                        },
+                        decoration: InputDecoration(
+                          counterText: '',
+                          filled: true,
+                          fillColor: DvColors.surface,
+                          contentPadding: EdgeInsets.zero,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: DvColors.line),
                           ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          i < 4 ? '4927'[i] : '',
-                          style: DvText.mono(size: 20, weight: FontWeight.w600),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(color: DvColors.kum, width: 1.4),
+                          ),
                         ),
                       ),
                     ),

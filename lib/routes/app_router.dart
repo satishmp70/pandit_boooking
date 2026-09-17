@@ -15,7 +15,7 @@ import 'routes.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final router = GoRouter(
+  static GoRouter get router => GoRouter(
     initialLocation: Routes.splashPath,
     routes: [
       GoRoute(
