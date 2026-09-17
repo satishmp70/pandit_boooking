@@ -16,18 +16,15 @@ class PartnerDashboardScreen extends StatelessWidget {
     return BlocBuilder<PartnerCubit, PartnerState>(
       builder: (context, state) {
         final dashboard = state.dashboard;
-        return Container(
-          color: DvColors.appBg,
-          child: SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                DvHero(
-                  radiusBottom: 26,
-                  child: Column(
-                    children: [
-                      const DvStatusBar(light: true),
-                      Row(
+        return Scaffold(
+          backgroundColor: DvColors.appBg,
+          body: Column(
+            children: [
+              DvHero(
+                radiusBottom: 26,
+                child: Column(
+                  children: [
+                    Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
@@ -171,12 +168,18 @@ class PartnerDashboardScreen extends StatelessWidget {
                           ),
                         ),
                 ),
-                Container(
-                  decoration: const BoxDecoration(
-                    color: DvColors.surface,
-                    border: Border(top: BorderSide(color: DvColors.line)),
-                  ),
-                  padding: const EdgeInsets.only(top: 10),
+            ],
+          ),
+          bottomNavigationBar: Container(
+            decoration: const BoxDecoration(
+              color: DvColors.surface,
+              border: Border(top: BorderSide(color: DvColors.line)),
+            ),
+            child: SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: SizedBox(
                   height: 76,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +209,7 @@ class PartnerDashboardScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         );

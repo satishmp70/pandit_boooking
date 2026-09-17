@@ -13,18 +13,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: DvColors.appBg,
-      child: SafeArea(
-        top: false,
-        child: Column(
-          children: [
-            DvHero(
-              radiusBottom: 0,
-              child: Column(
-                children: [
-                  const DvStatusBar(light: true),
-                  Row(
+    return Scaffold(
+      backgroundColor: DvColors.appBg,
+      body: Column(
+        children: [
+          DvHero(
+            radiusBottom: 0,
+            child: Column(
+              children: [
+                Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -269,10 +266,9 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const DvTabBar(active: 'home'),
           ],
         ),
-      ),
+      bottomNavigationBar: const DvTabBar(active: 'home'),
     );
   }
 

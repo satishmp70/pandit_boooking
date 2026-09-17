@@ -4,57 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../routes/routes.dart';
 import '../theme/dv_theme.dart';
 
-class DvStatusBar extends StatelessWidget {
-  const DvStatusBar({this.light = false, super.key});
-
-  final bool light;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = light ? Colors.white : DvColors.ink;
-    return SizedBox(
-      height: 40,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 4),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text('9:41', style: DvText.body(size: 13, weight: FontWeight.w700, color: color)),
-            Row(
-              children: [
-                Container(
-                  width: 18,
-                  height: 9,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: color, width: 1.4),
-                    borderRadius: BorderRadius.circular(3),
-                  ),
-                ),
-                const SizedBox(width: 5),
-                Container(
-                  width: 22,
-                  height: 11,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: color, width: 1.4),
-                    borderRadius: BorderRadius.circular(3.5),
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(margin: const EdgeInsets.all(1.5), width: 13, color: color),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class DvNav extends StatelessWidget {
-  const DvNav({this.title = '', this.backPath, this.rightLabel, this.onRight, super.key});
+/// Real Material app bar used by [DvScaffold]. Back navigation goes through
+/// go_router, and the system status bar is drawn by the OS (not by the app).
+class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const DvAppBar({this.title = '', this.backPath, this.rightLabel, this.onRight, super.key});
 
   final String title;
   final String? backPath;
@@ -62,53 +15,45 @@ class DvNav extends StatelessWidget {
   final VoidCallback? onRight;
 
   @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 2, 14, 12),
-      child: Row(
-        children: [
-          if (backPath != null)
-            InkWell(
-              onTap: () => context.go(backPath!),
-              borderRadius: BorderRadius.circular(11),
-              child: Container(
-                width: 33,
-                height: 33,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: DvColors.surface,
-                  border: Border.all(color: DvColors.line),
-                  borderRadius: BorderRadius.circular(11),
-                ),
-                child: const Icon(Icons.chevron_left, size: 22, color: DvColors.ink),
+    return AppBar(
+      backgroundColor: DvColors.appBg,
+      foregroundColor: DvColors.ink,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      leadingWidth: 56,
+      leading: backPath == null
+          ? null
+          : Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: IconButton(
+                onPressed: () => context.go(backPath!),
+                icon: const Icon(Icons.chevron_left, size: 26),
+                tooltip: 'Back',
               ),
-            )
-          else
-            const SizedBox(width: 33),
-          Expanded(
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              style: DvText.body(size: 16, weight: FontWeight.w700, color: DvColors.ink),
             ),
-          ),
-          SizedBox(
-            width: 60,
-            child: rightLabel == null
-                ? const SizedBox.shrink()
-                : Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: onRight,
-                      child: Text(
-                        rightLabel!,
-                        style: DvText.body(size: 11.5, weight: FontWeight.w700, color: DvColors.kum),
-                      ),
-                    ),
-                  ),
-          ),
-        ],
+      title: Text(
+        title,
+        style: DvText.body(size: 16, weight: FontWeight.w700, color: DvColors.ink),
       ),
+      actions: rightLabel == null
+          ? null
+          : [
+              TextButton(
+                onPressed: onRight,
+                child: Text(
+                  rightLabel!,
+                  style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum),
+                ),
+              ),
+              const SizedBox(width: 6),
+            ],
     );
   }
 }
@@ -153,42 +98,49 @@ class DvTabBar extends StatelessWidget {
         color: DvColors.surface,
         border: Border(top: BorderSide(color: DvColors.line)),
       ),
-      padding: const EdgeInsets.only(top: 10),
-      height: 76,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _tab(context, 'home', Icons.wb_sunny_outlined, 'Home', Routes.homePath),
-          _tab(context, 'bookings', Icons.calendar_today_outlined, 'Bookings', Routes.bookingsPath),
-          Expanded(
-            child: GestureDetector(
-              onTap: () => context.go(Routes.conciergePath),
-              behavior: HitTestBehavior.opaque,
-              child: Column(
-                children: [
-                  Transform.translate(
-                    offset: const Offset(0, -22),
-                    child: Container(
-                      width: 46,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFC4402F), Color(0xFF96262A)],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: SizedBox(
+            height: 76,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _tab(context, 'home', Icons.wb_sunny_outlined, 'Home', Routes.homePath),
+                _tab(context, 'bookings', Icons.calendar_today_outlined, 'Bookings', Routes.bookingsPath),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => context.go(Routes.conciergePath),
+                    behavior: HitTestBehavior.opaque,
+                    child: Column(
+                      children: [
+                        Transform.translate(
+                          offset: const Offset(0, -22),
+                          child: Container(
+                            width: 46,
+                            height: 46,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFC4402F), Color(0xFF96262A)],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                _tab(context, 'family', Icons.family_restroom, 'Family', Routes.familyPath),
+                _tab(context, 'account', Icons.person_outline, 'Account', Routes.accountPath),
+              ],
             ),
           ),
-          _tab(context, 'family', Icons.family_restroom, 'Family', Routes.familyPath),
-          _tab(context, 'account', Icons.person_outline, 'Account', Routes.accountPath),
-        ],
+        ),
       ),
     );
   }
@@ -240,7 +192,6 @@ class DvScaffold extends StatelessWidget {
     this.wizardStep = 0,
     this.tab,
     this.cta,
-    this.lightStatusBar = false,
     this.padded = true,
     this.bottomPadding = 22,
     super.key,
@@ -254,34 +205,39 @@ class DvScaffold extends StatelessWidget {
   final int wizardStep;
   final String? tab;
   final Widget? cta;
-  final bool lightStatusBar;
   final bool padded;
   final double bottomPadding;
 
   @override
   Widget build(BuildContext context) {
     final hasNav = title != null || backPath != null || rightLabel != null;
-    return Container(
-      color: DvColors.appBg,
-      child: SafeArea(
-        top: false,
+    return Scaffold(
+      backgroundColor: DvColors.appBg,
+      appBar: hasNav
+          ? DvAppBar(
+              title: title ?? '',
+              backPath: backPath,
+              rightLabel: rightLabel,
+              onRight: onRight,
+            )
+          : null,
+      body: SafeArea(
+        top: !hasNav,
+        bottom: false,
         child: Column(
           children: [
-            DvStatusBar(light: lightStatusBar),
-            if (hasNav)
-              DvNav(title: title ?? '', backPath: backPath, rightLabel: rightLabel, onRight: onRight),
             if (wizardStep > 0) DvWizard(step: wizardStep),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(padded ? 18 : 0, 0, padded ? 18 : 0, bottomPadding),
+                padding: EdgeInsets.fromLTRB(padded ? 18 : 0, 8, padded ? 18 : 0, bottomPadding),
                 child: child,
               ),
             ),
             if (cta != null) DvCta(child: cta!),
-            if (tab != null) DvTabBar(active: tab!),
           ],
         ),
       ),
+      bottomNavigationBar: tab != null ? DvTabBar(active: tab!) : null,
     );
   }
 }
@@ -865,7 +821,7 @@ class DvHero extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 18),
+      padding: EdgeInsets.fromLTRB(18, 8 + MediaQuery.of(context).padding.top, 18, 18),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [DvColors.heroStart, DvColors.heroEnd],
