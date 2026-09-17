@@ -1,0 +1,38 @@
+name: pandit-booking-android
+
+services:
+  apk:
+    # Flutter 3.44.0 / Dart 3.12.0, matching the verified build environment.
+    image: ghcr.io/cirruslabs/flutter@sha256:46691e311715845de03a3ba4753a475476936805b29431b1f00f1816981033f8
+    working_dir: /tmp/app
+    volumes:
+      - .:/source:ro
+      - ./build/android-apk:/output
+      - android-sdk:/opt/android-sdk-linux
+      - gradle-cache:/root/.gradle
+      - pub-cache:/root/.pub-cache
+      - android-signing:/root/.android
+    environment:
+      OUTPUT_UID: ${OUTPUT_UID:-1000}
+      OUTPUT_GID: ${OUTPUT_GID:-1000}
+    entrypoint: ["bash", "-lc"]
+    command:
+      - |
+        set -euo pipefail
+        cp -r /source/android /source/lib /source/assets /source/pubspec.yaml /source/pubspec.lock .
+        rm -f android/local.properties
+        flutter build apk --release
+        apk=build/app/outputs/flutter-apk/app-release.apk
+        for signer in /opt/android-sdk-linux/build-tools/*/apksigner; do
+          "$$signer" verify "$$apk"
+          break
+        done
+        cp "$$apk" /output/PanditBooking-latest.apk.tmp
+        chown "$$OUTPUT_UID:$$OUTPUT_GID" /output/PanditBooking-latest.apk.tmp
+        mv /output/PanditBooking-latest.apk.tmp /output/PanditBooking-latest.apk
+
+volumes:
+  android-sdk:
+  gradle-cache:
+  pub-cache:
+  android-signing:

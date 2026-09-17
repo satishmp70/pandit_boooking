@@ -46,6 +46,19 @@ flutter test
 The application ships with local mock data sources, so it runs without any
 backend configuration.
 
+## Build an Android APK
+
+See [Android APK build instructions](docs/android-apk-build.md) for Docker and
+local Flutter builds, installation, versioning, and signing.
+
+```bash
+mkdir -p build/android-apk
+docker compose -f docker-compose.android.yml run --rm apk
+```
+
+Output: `build/android-apk/PanditBooking-latest.apk`.
+The release APK currently uses a persistent test-signing key.
+
 ## Run with Docker
 
 The Docker image builds the Flutter **web** release and serves it with nginx,
