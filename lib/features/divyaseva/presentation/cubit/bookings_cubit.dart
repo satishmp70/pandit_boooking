@@ -64,7 +64,9 @@ class BookingsCubit extends Cubit<BookingsState> {
       final bookings = await _getBookings();
       emit(state.copyWith(status: AsyncStatus.success, bookings: bookings));
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 

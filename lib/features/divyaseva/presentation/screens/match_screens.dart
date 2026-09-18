@@ -50,7 +50,10 @@ class _MatchingScreenState extends State<MatchingScreen> {
             const SizedBox(
               width: 34,
               height: 34,
-              child: CircularProgressIndicator(strokeWidth: 3, color: DvColors.kum),
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                color: DvColors.kum,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
@@ -77,10 +80,25 @@ class _MatchingScreenState extends State<MatchingScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Row(
                         children: [
-                          const Icon(Icons.check, size: 16, color: DvColors.green),
+                          const Icon(
+                            Icons.check,
+                            size: 16,
+                            color: DvColors.green,
+                          ),
                           const SizedBox(width: 10),
-                          Expanded(child: Text(line.$1, style: DvText.body(size: 12.5))),
-                          Text(line.$2, style: DvText.mono(size: 13, weight: FontWeight.w700)),
+                          Expanded(
+                            child: Text(
+                              line.$1,
+                              style: DvText.body(size: 12.5),
+                            ),
+                          ),
+                          Text(
+                            line.$2,
+                            style: DvText.mono(
+                              size: 13,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -91,13 +109,19 @@ class _MatchingScreenState extends State<MatchingScreen> {
                         const SizedBox(
                           width: 14,
                           height: 14,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: DvColors.ink3),
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: DvColors.ink3,
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             'Ranking by reliability, language and travel\u2026',
-                            style: DvText.body(size: 12.5, color: DvColors.ink2),
+                            style: DvText.body(
+                              size: 12.5,
+                              color: DvColors.ink2,
+                            ),
                           ),
                         ),
                       ],
@@ -137,7 +161,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
       builder: (context, state) {
         final pandits = state.pandits;
         return DvScaffold(
-          title: pandits.isEmpty ? 'Matching\u2026' : '${pandits.length + 8} Pandits available',
+          title: pandits.isEmpty
+              ? 'Matching\u2026'
+              : '${pandits.length + 8} Pandits available',
           backPath: Routes.samagriPath,
           rightLabel: 'Filter',
           cta: DvButton(
@@ -148,7 +174,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
           child: state.status == AsyncStatus.loading
               ? const Padding(
                   padding: EdgeInsets.symmetric(vertical: 60),
-                  child: Center(child: CircularProgressIndicator(color: DvColors.kum)),
+                  child: Center(
+                    child: CircularProgressIndicator(color: DvColors.kum),
+                  ),
                 )
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +192,8 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       ],
                     ),
                     const SizedBox(height: 14),
-                    if (pandits.isNotEmpty) _highlighted(context, pandits.first),
+                    if (pandits.isNotEmpty)
+                      _highlighted(context, pandits.first),
                     const SizedBox(height: 12),
                     for (final pandit in pandits.skip(1)) ...[
                       _card(pandit),
@@ -175,17 +204,30 @@ class _ResultsScreenState extends State<ResultsScreen> {
                       borderColor: Colors.transparent,
                       child: Row(
                         children: [
-                          const Icon(Icons.auto_awesome, size: 19, color: DvColors.kum),
+                          const Icon(
+                            Icons.auto_awesome,
+                            size: 19,
+                            color: DvColors.kum,
+                          ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Auto-match for me', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                                Text(
+                                  'Auto-match for me',
+                                  style: DvText.body(
+                                    size: 13.5,
+                                    weight: FontWeight.w700,
+                                  ),
+                                ),
                                 const SizedBox(height: 3),
                                 Text(
                                   'We assign the best available Pandit and hold a named backup. Same price. Recommended if you have no preference.',
-                                  style: DvText.body(size: 12, color: DvColors.ink2),
+                                  style: DvText.body(
+                                    size: 12,
+                                    color: DvColors.ink2,
+                                  ),
                                 ),
                               ],
                             ),
@@ -220,10 +262,19 @@ class _ResultsScreenState extends State<ResultsScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(pandit.name, style: DvText.body(size: 15, weight: FontWeight.w700)),
+                              Text(
+                                pandit.name,
+                                style: DvText.body(
+                                  size: 15,
+                                  weight: FontWeight.w700,
+                                ),
+                              ),
                               Text(
                                 '\u20b9${_money(pandit.price)}',
-                                style: DvText.mono(size: 14, weight: FontWeight.w700),
+                                style: DvText.mono(
+                                  size: 14,
+                                  weight: FontWeight.w700,
+                                ),
                               ),
                             ],
                           ),
@@ -232,7 +283,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               '${pandit.experience} \u00b7 ${pandit.area}, ${pandit.distanceKm} km away',
-                              style: DvText.body(size: 12, color: DvColors.ink2),
+                              style: DvText.body(
+                                size: 12,
+                                color: DvColors.ink2,
+                              ),
                             ),
                           ),
                         ],
@@ -257,7 +311,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
                 DvCard(
                   color: DvColors.line2,
                   borderColor: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -277,7 +334,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     _stat('${pandit.onTime}%', 'On time'),
                     _stat('${pandit.completed}', 'Completed'),
                     _stat('${pandit.rating}', 'Rating'),
-                    _stat('${pandit.noShows}', 'No-shows', color: DvColors.green),
+                    _stat(
+                      '${pandit.noShows}',
+                      'No-shows',
+                      color: DvColors.green,
+                    ),
                   ],
                 ),
               ],
@@ -297,7 +358,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     ),
                     child: Text(
                       'View profile',
-                      style: DvText.body(size: 13, weight: FontWeight.w700, color: DvColors.ink2),
+                      style: DvText.body(
+                        size: 13,
+                        weight: FontWeight.w700,
+                        color: DvColors.ink2,
+                      ),
                     ),
                   ),
                 ),
@@ -305,7 +370,9 @@ class _ResultsScreenState extends State<ResultsScreen> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
-                    context.read<BookingBloc>().add(BookingPanditSelected(pandit.name));
+                    context.read<BookingBloc>().add(
+                      BookingPanditSelected(pandit.name),
+                    );
                     context.go(Routes.quotePath);
                   },
                   child: Container(
@@ -313,7 +380,11 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     padding: const EdgeInsets.all(12),
                     child: Text(
                       'Select',
-                      style: DvText.body(size: 13, weight: FontWeight.w700, color: DvColors.kum),
+                      style: DvText.body(
+                        size: 13,
+                        weight: FontWeight.w700,
+                        color: DvColors.kum,
+                      ),
                     ),
                   ),
                 ),
@@ -340,10 +411,19 @@ class _ResultsScreenState extends State<ResultsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(pandit.name, style: DvText.body(size: 14.5, weight: FontWeight.w700)),
+                        Text(
+                          pandit.name,
+                          style: DvText.body(
+                            size: 14.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                         Text(
                           '\u20b9${_money(pandit.price)}',
-                          style: DvText.mono(size: 13.5, weight: FontWeight.w700),
+                          style: DvText.mono(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
                         ),
                       ],
                     ),
@@ -386,7 +466,10 @@ class _ResultsScreenState extends State<ResultsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(value, style: DvText.mono(size: 15, weight: FontWeight.w600, color: color)),
+        Text(
+          value,
+          style: DvText.mono(size: 15, weight: FontWeight.w600, color: color),
+        ),
         Text(label, style: DvText.body(size: 11, color: DvColors.ink3)),
       ],
     );
@@ -417,15 +500,23 @@ class PanditProfileScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Sat 12 Sep \u00b7 08:30', style: DvText.body(size: 12.5, color: DvColors.ink2)),
-                  Text('\u20b9${_money(state.variant.price)}', style: DvText.mono(size: 13, weight: FontWeight.w700)),
+                  Text(
+                    'Sat 12 Sep \u00b7 08:30',
+                    style: DvText.body(size: 12.5, color: DvColors.ink2),
+                  ),
+                  Text(
+                    '\u20b9${_money(state.variant.price)}',
+                    style: DvText.mono(size: 13, weight: FontWeight.w700),
+                  ),
                 ],
               ),
               const SizedBox(height: 9),
               DvButton(
                 label: 'Book Pandit Suresh',
                 onTap: () {
-                  context.read<BookingBloc>().add(const BookingPanditSelected('Suresh Joshi'));
+                  context.read<BookingBloc>().add(
+                    const BookingPanditSelected('Suresh Joshi'),
+                  );
                   context.go(Routes.quotePath);
                 },
               ),
@@ -502,11 +593,18 @@ class PanditProfileScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const DvSectionLabel('Reliability \u2014 from real bookings, not stars'),
+                    const DvSectionLabel(
+                      'Reliability \u2014 from real bookings, not stars',
+                    ),
                     const SizedBox(height: 12),
                     _reliability('Arrived on time', '98%', 0.98),
                     _reliability('Accepted within 10 min', '96%', 0.96),
-                    _reliability('Cancelled after accepting', '0.4%', 0.04, danger: true),
+                    _reliability(
+                      'Cancelled after accepting',
+                      '0.4%',
+                      0.04,
+                      danger: true,
+                    ),
                     _reliability('No-shows', '0 in 212', 1.0),
                   ],
                 ),
@@ -518,9 +616,18 @@ class PanditProfileScreen extends StatelessWidget {
                   children: const [
                     DvSectionLabel('Services & prices'),
                     SizedBox(height: 10),
-                    DvMoneyRow(label: 'Griha Pravesh \u00b7 Standard', value: '\u20b95,100'),
-                    DvMoneyRow(label: 'Griha Pravesh + Havan', value: '\u20b97,600'),
-                    DvMoneyRow(label: 'Satyanarayan Puja', value: '\u20b94,400'),
+                    DvMoneyRow(
+                      label: 'Griha Pravesh \u00b7 Standard',
+                      value: '\u20b95,100',
+                    ),
+                    DvMoneyRow(
+                      label: 'Griha Pravesh + Havan',
+                      value: '\u20b97,600',
+                    ),
+                    DvMoneyRow(
+                      label: 'Satyanarayan Puja',
+                      value: '\u20b94,400',
+                    ),
                     DvMoneyRow(label: 'Rudrabhishek', value: '\u20b96,200'),
                   ],
                 ),
@@ -535,7 +642,10 @@ class PanditProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Meenal P.', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                        Text(
+                          'Meenal P.',
+                          style: DvText.body(size: 13, weight: FontWeight.w700),
+                        ),
                         const DvStars(5),
                       ],
                     ),
@@ -564,7 +674,10 @@ class PanditProfileScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Ajay S.', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                        Text(
+                          'Ajay S.',
+                          style: DvText.body(size: 13, weight: FontWeight.w700),
+                        ),
                         const DvStars(4),
                       ],
                     ),
@@ -576,7 +689,10 @@ class PanditProfileScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Wrap(
                       spacing: 6,
-                      children: const [DvPill('Punctuality 4'), DvPill('Conduct 5')],
+                      children: const [
+                        DvPill('Punctuality 4'),
+                        DvPill('Conduct 5'),
+                      ],
                     ),
                   ],
                 ),
@@ -588,7 +704,12 @@ class PanditProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _reliability(String label, String value, double fraction, {bool danger = false}) {
+  Widget _reliability(
+    String label,
+    String value,
+    double fraction, {
+    bool danger = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Column(
@@ -597,7 +718,10 @@ class PanditProfileScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(label, style: DvText.body(size: 12.5)),
-              Text(value, style: DvText.mono(size: 12.5, weight: FontWeight.w600)),
+              Text(
+                value,
+                style: DvText.mono(size: 12.5, weight: FontWeight.w600),
+              ),
             ],
           ),
           const SizedBox(height: 5),

@@ -56,9 +56,17 @@ class BookingDetailCubit extends Cubit<BookingDetailState> {
     try {
       final steps = await _getBookingSteps();
       final checklist = await _getPreparationChecklist();
-      emit(state.copyWith(status: AsyncStatus.success, steps: steps, checklist: checklist));
+      emit(
+        state.copyWith(
+          status: AsyncStatus.success,
+          steps: steps,
+          checklist: checklist,
+        ),
+      );
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 

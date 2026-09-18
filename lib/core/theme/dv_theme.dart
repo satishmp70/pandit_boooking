@@ -73,11 +73,8 @@ class DvText {
     double size = 13,
     Color color = DvColors.ink,
     FontWeight weight = FontWeight.w500,
-  }) => GoogleFonts.ibmPlexMono(
-    fontSize: size,
-    color: color,
-    fontWeight: weight,
-  );
+  }) =>
+      GoogleFonts.ibmPlexMono(fontSize: size, color: color, fontWeight: weight);
 
   static TextStyle eyebrow({Color color = DvColors.ink3}) =>
       body(size: 11, weight: FontWeight.w700, color: color, spacing: 1.4);
@@ -96,8 +93,6 @@ class DvTheme {
       ),
       scaffoldBackgroundColor: DvColors.appBg,
     );
-    return base.copyWith(
-      textTheme: GoogleFonts.muktaTextTheme(base.textTheme),
-    );
+    return base.copyWith(textTheme: GoogleFonts.muktaTextTheme(base.textTheme));
   }
 }

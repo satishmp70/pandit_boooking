@@ -42,7 +42,10 @@ class _LocationScreenState extends State<LocationScreen> {
       backPath: Routes.servicePath,
       rightLabel: '1 of 4',
       wizardStep: 1,
-      cta: DvButton(label: 'Continue to date and muhurat', onTap: () => context.go(Routes.whenPath)),
+      cta: DvButton(
+        label: 'Continue to date and muhurat',
+        onTap: () => context.go(Routes.whenPath),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -59,8 +62,15 @@ class _LocationScreenState extends State<LocationScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('New flat \u2014 Home', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
-                    if (_address == 0) const DvPill('This booking', tone: DvTone.kum),
+                    const Text(
+                      'New flat \u2014 Home',
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    if (_address == 0)
+                      const DvPill('This booking', tone: DvTone.kum),
                   ],
                 ),
                 const SizedBox(height: 2),
@@ -81,8 +91,15 @@ class _LocationScreenState extends State<LocationScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Parents \u2014 Dadar', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
-                    if (_address == 1) const DvPill('This booking', tone: DvTone.kum),
+                    const Text(
+                      'Parents \u2014 Dadar',
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    if (_address == 1)
+                      const DvPill('This booking', tone: DvTone.kum),
                   ],
                 ),
                 const SizedBox(height: 2),
@@ -96,9 +113,16 @@ class _LocationScreenState extends State<LocationScreen> {
           const SizedBox(height: 12),
           Row(
             children: const [
-              Expanded(child: DvField(label: 'Floor / flat', value: '12th \u00b7 B-1204')),
+              Expanded(
+                child: DvField(
+                  label: 'Floor / flat',
+                  value: '12th \u00b7 B-1204',
+                ),
+              ),
               SizedBox(width: 9),
-              Expanded(child: DvField(label: 'Lift working?', value: 'Yes')),
+              Expanded(
+                child: DvField(label: 'Lift working?', value: 'Yes'),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -111,7 +135,10 @@ class _LocationScreenState extends State<LocationScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Society permission needed', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                      Text(
+                        'Society permission needed',
+                        style: DvText.body(size: 13, weight: FontWeight.w700),
+                      ),
                       const SizedBox(height: 3),
                       Text(
                         'Havan or loud aarti may need a society NOC. We will remind you 3 days before.',
@@ -130,12 +157,17 @@ class _LocationScreenState extends State<LocationScreen> {
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Align(
-                      alignment: _noc ? Alignment.centerRight : Alignment.centerLeft,
+                      alignment: _noc
+                          ? Alignment.centerRight
+                          : Alignment.centerLeft,
                       child: Container(
                         margin: const EdgeInsets.all(3),
                         width: 18,
                         height: 18,
-                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
                   ),
@@ -168,7 +200,11 @@ class _LocationScreenState extends State<LocationScreen> {
                 shape: BoxShape.circle,
                 border: Border.all(color: DvColors.kum, width: 1),
               ),
-              child: const Icon(Icons.location_on, color: DvColors.kum, size: 22),
+              child: const Icon(
+                Icons.location_on,
+                color: DvColors.kum,
+                size: 22,
+              ),
             ),
           ),
           Positioned(
@@ -176,10 +212,17 @@ class _LocationScreenState extends State<LocationScreen> {
             bottom: 12,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(9)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(9),
+              ),
               child: Text(
                 'Serviceable \u00b7 18 Pandits within 12 km',
-                style: DvText.body(size: 10.5, weight: FontWeight.w700, color: DvColors.green),
+                style: DvText.body(
+                  size: 10.5,
+                  weight: FontWeight.w700,
+                  color: DvColors.green,
+                ),
               ),
             ),
           ),
@@ -211,11 +254,17 @@ class WhenScreen extends StatelessWidget {
                     '${state.draft.date} \u00b7 08:30 \u00b7 ${state.draft.muhurat}',
                     style: DvText.body(size: 12.5, color: DvColors.ink2),
                   ),
-                  Text('ends 11:00', style: DvText.body(size: 12, color: DvColors.ink3)),
+                  Text(
+                    'ends 11:00',
+                    style: DvText.body(size: 12, color: DvColors.ink3),
+                  ),
                 ],
               ),
               const SizedBox(height: 9),
-              DvButton(label: 'Continue to preferences', onTap: () => context.go(Routes.preferencesPath)),
+              DvButton(
+                label: 'Continue to preferences',
+                onTap: () => context.go(Routes.preferencesPath),
+              ),
             ],
           ),
           child: Column(
@@ -246,10 +295,18 @@ class WhenScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(window.name, style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                            Text(
+                              window.name,
+                              style: DvText.body(
+                                size: 13.5,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
                             DvPill(
                               window.availability,
-                              tone: window.recommended ? DvTone.green : DvTone.kum,
+                              tone: window.recommended
+                                  ? DvTone.green
+                                  : DvTone.kum,
                             ),
                           ],
                         ),
@@ -277,7 +334,8 @@ class WhenScreen extends StatelessWidget {
                     DvChip(
                       time,
                       selected: state.draft.slot.startsWith(time),
-                      onTap: () => bloc.add(BookingSlotSelected('$time \u2013 11:00')),
+                      onTap: () =>
+                          bloc.add(BookingSlotSelected('$time \u2013 11:00')),
                     ),
                 ],
               ),
@@ -303,7 +361,13 @@ class PreferencesScreen extends StatefulWidget {
 }
 
 class _PreferencesScreenState extends State<PreferencesScreen> {
-  static const _peopleOptions = ['2 \u2013 4', '4 \u2013 6', '8 \u2013 12', '15 \u2013 20', '25+'];
+  static const _peopleOptions = [
+    '2 \u2013 4',
+    '4 \u2013 6',
+    '8 \u2013 12',
+    '15 \u2013 20',
+    '25+',
+  ];
 
   int _serviceFor = 0;
 
@@ -324,7 +388,10 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
           backPath: Routes.whenPath,
           rightLabel: '3 of 4',
           wizardStep: 3,
-          cta: DvButton(label: 'Continue to samagri', onTap: () => context.go(Routes.samagriPath)),
+          cta: DvButton(
+            label: 'Continue to samagri',
+            onTap: () => context.go(Routes.samagriPath),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -349,7 +416,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     DvChip(
                       tradition,
                       selected: tradition == state.draft.tradition,
-                      onTap: () => bloc.add(BookingTraditionSelected(tradition)),
+                      onTap: () =>
+                          bloc.add(BookingTraditionSelected(tradition)),
                     ),
                 ],
               ),
@@ -366,7 +434,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('People attending', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                        Text(
+                          'People attending',
+                          style: DvText.body(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 2),
                         Text(
                           'Decides seating, prasad quantity and duration',
@@ -383,18 +457,41 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     child: Row(
                       children: [
                         GestureDetector(
-                          onTap: () => _changePeople(bloc, state.draft.people, -1),
+                          onTap: () =>
+                              _changePeople(bloc, state.draft.people, -1),
                           child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-                            child: Text('\u2212', style: TextStyle(fontSize: 16, color: DvColors.ink3)),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 13,
+                              vertical: 7,
+                            ),
+                            child: Text(
+                              '\u2212',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: DvColors.ink3,
+                              ),
+                            ),
                           ),
                         ),
-                        Text(state.draft.people, style: DvText.mono(size: 13, weight: FontWeight.w600)),
+                        Text(
+                          state.draft.people,
+                          style: DvText.mono(size: 13, weight: FontWeight.w600),
+                        ),
                         GestureDetector(
-                          onTap: () => _changePeople(bloc, state.draft.people, 1),
+                          onTap: () =>
+                              _changePeople(bloc, state.draft.people, 1),
                           child: const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 13, vertical: 7),
-                            child: Text('+', style: TextStyle(fontSize: 16, color: DvColors.kum)),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 13,
+                              vertical: 7,
+                            ),
+                            child: Text(
+                              '+',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: DvColors.kum,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -411,9 +508,18 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Myself and my family', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
+                    Text(
+                      'Myself and my family',
+                      style: TextStyle(
+                        fontSize: 13.5,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                     SizedBox(height: 2),
-                    Text('You are present at the address', style: TextStyle(fontSize: 12, color: DvColors.ink2)),
+                    Text(
+                      'You are present at the address',
+                      style: TextStyle(fontSize: 12, color: DvColors.ink2),
+                    ),
                   ],
                 ),
               ),
@@ -427,7 +533,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('My parents', style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
+                        Text(
+                          'My parents',
+                          style: TextStyle(
+                            fontSize: 13.5,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                         DvPill('Family account', tone: DvTone.brass),
                       ],
                     ),
@@ -442,7 +554,8 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
               const SizedBox(height: 14),
               const DvField(
                 label: 'Anything the Pandit should know',
-                value: 'Aaji is 84 and cannot sit on the floor \u2014 please allow a chair.',
+                value:
+                    'Aaji is 84 and cannot sit on the floor \u2014 please allow a chair.',
               ),
             ],
           ),
@@ -466,7 +579,10 @@ class SamagriScreen extends StatelessWidget {
           backPath: Routes.preferencesPath,
           rightLabel: '4 of 4',
           wizardStep: 4,
-          cta: DvButton(label: 'Find my Pandit', onTap: () => context.go(Routes.matchingPath)),
+          cta: DvButton(
+            label: 'Find my Pandit',
+            onTap: () => context.go(Routes.matchingPath),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -486,16 +602,30 @@ class SamagriScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text(option.name, style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                            child: Text(
+                              option.name,
+                              style: DvText.body(
+                                size: 13.5,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                           Text(
-                            option.price == 0 ? '\u20b90' : '+ \u20b9${_money(option.price)}',
-                            style: DvText.mono(size: 13, weight: FontWeight.w600),
+                            option.price == 0
+                                ? '\u20b90'
+                                : '+ \u20b9${_money(option.price)}',
+                            style: DvText.mono(
+                              size: 13,
+                              weight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 2),
-                      Text(option.description, style: DvText.body(size: 12, color: DvColors.ink2)),
+                      Text(
+                        option.description,
+                        style: DvText.body(size: 12, color: DvColors.ink2),
+                      ),
                     ],
                   ),
                 ),
@@ -526,7 +656,9 @@ class SamagriScreen extends StatelessWidget {
                                 item,
                                 style: DvText.body(
                                   size: 12,
-                                  color: item.startsWith('+') ? DvColors.ink3 : DvColors.ink,
+                                  color: item.startsWith('+')
+                                      ? DvColors.ink3
+                                      : DvColors.ink,
                                 ),
                               ),
                             ),
@@ -535,7 +667,11 @@ class SamagriScreen extends StatelessWidget {
                       const DvDivider(),
                       Row(
                         children: [
-                          const Icon(Icons.inventory_2_outlined, size: 18, color: DvColors.ink2),
+                          const Icon(
+                            Icons.inventory_2_outlined,
+                            size: 18,
+                            color: DvColors.ink2,
+                          ),
                           const SizedBox(width: 10),
                           Expanded(
                             child: Column(
@@ -543,12 +679,18 @@ class SamagriScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   'Delivered Fri 11 Sep, before 7:00 PM',
-                                  style: DvText.body(size: 12.5, weight: FontWeight.w700),
+                                  style: DvText.body(
+                                    size: 12.5,
+                                    weight: FontWeight.w700,
+                                  ),
                                 ),
                                 const SizedBox(height: 2),
                                 Text(
                                   'Reserved from Thane warehouse. If anything is short we substitute and tell you, or refund that line.',
-                                  style: DvText.body(size: 12, color: DvColors.ink2),
+                                  style: DvText.body(
+                                    size: 12,
+                                    color: DvColors.ink2,
+                                  ),
                                 ),
                               ],
                             ),
@@ -578,7 +720,8 @@ class SamagriScreen extends StatelessWidget {
               DvBanner(
                 tone: DvTone.green,
                 icon: Icons.currency_rupee,
-                title: 'Running total \u20b9${_money(state.variant.price + selected.price)}',
+                title:
+                    'Running total \u20b9${_money(state.variant.price + selected.price)}',
                 body:
                     'Service \u20b9${_money(state.variant.price)} + samagri \u20b9${_money(selected.price)}. Fees and taxes shown in full on the next screen before you pay anything.',
               ),

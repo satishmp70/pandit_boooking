@@ -7,6 +7,7 @@ import '../../../../core/widgets/dv_widgets.dart';
 import '../../../../routes/routes.dart';
 import '../bloc/booking_bloc.dart';
 import '../bloc/booking_state.dart';
+import '../../../payment/presentation/payment_cubit.dart';
 
 class QuoteScreen extends StatelessWidget {
   const QuoteScreen({super.key});
@@ -26,15 +27,27 @@ class QuoteScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text('Price locked for ', style: DvText.body(size: 12, color: DvColors.ink2)),
-                      Text('09:52', style: DvText.mono(size: 12, weight: FontWeight.w600)),
+                      Text(
+                        'Price locked for ',
+                        style: DvText.body(size: 12, color: DvColors.ink2),
+                      ),
+                      Text(
+                        '09:52',
+                        style: DvText.mono(size: 12, weight: FontWeight.w600),
+                      ),
                     ],
                   ),
-                  Text('\u20b9${_money(q.total)}', style: DvText.mono(size: 15, weight: FontWeight.w700)),
+                  Text(
+                    '\u20b9${_money(q.total)}',
+                    style: DvText.mono(size: 15, weight: FontWeight.w700),
+                  ),
                 ],
               ),
               const SizedBox(height: 9),
-              DvButton(label: 'Proceed to payment', onTap: () => context.go(Routes.paymentPath)),
+              DvButton(
+                label: 'Proceed to payment',
+                onTap: () => context.go(Routes.paymentPath),
+              ),
             ],
           ),
           child: Column(
@@ -53,12 +66,18 @@ class QuoteScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Griha Pravesh \u00b7 ${state.variant.name.replaceAll('Griha Pravesh', '').trim().isEmpty ? 'Standard' : state.variant.name.replaceAll('Griha Pravesh', '').trim()}',
-                                style: DvText.body(size: 15, weight: FontWeight.w700),
+                                style: DvText.body(
+                                  size: 15,
+                                  weight: FontWeight.w700,
+                                ),
                               ),
                               const SizedBox(height: 3),
                               Text(
                                 'Sat 12 Sep \u00b7 08:30\u201311:00 \u00b7 ${state.draft.muhurat}',
-                                style: DvText.mono(size: 11, color: DvColors.ink3),
+                                style: DvText.mono(
+                                  size: 11,
+                                  color: DvColors.ink3,
+                                ),
                               ),
                             ],
                           ),
@@ -68,7 +87,10 @@ class QuoteScreen extends StatelessWidget {
                     const DvDivider(),
                     _row('Pandit', state.draft.panditName),
                     _row('Address', 'B-1204, Rustomjee Urbania'),
-                    _row('Language / tradition', '${state.draft.language} \u00b7 ${state.draft.tradition}'),
+                    _row(
+                      'Language / tradition',
+                      '${state.draft.language} \u00b7 ${state.draft.tradition}',
+                    ),
                     _row('Samagri', state.samagri.name),
                   ],
                 ),
@@ -97,17 +119,29 @@ class QuoteScreen extends StatelessWidget {
                     ),
                     DvMoneyRow(
                       label: state.samagri.name,
-                      value: q.samagri == 0 ? '\u20b90' : '\u20b9${_money(q.samagri)}',
+                      value: q.samagri == 0
+                          ? '\u20b90'
+                          : '\u20b9${_money(q.samagri)}',
                     ),
-                    DvMoneyRow(label: 'DivyaSeva platform fee', value: '\u20b9${_money(q.platform)}'),
-                    DvMoneyRow(label: 'GST on platform fee (18%)', value: '\u20b9${_money(q.gst)}'),
+                    DvMoneyRow(
+                      label: 'DivyaSeva platform fee',
+                      value: '\u20b9${_money(q.platform)}',
+                    ),
+                    DvMoneyRow(
+                      label: 'GST on platform fee (18%)',
+                      value: '\u20b9${_money(q.gst)}',
+                    ),
                     DvMoneyRow(
                       label: 'FIRSTPUJA discount',
                       value: '\u2212 \u20b9${_money(q.discount)}',
                       discount: true,
                     ),
                     const DvDivider(),
-                    DvMoneyRow(label: 'Total payable', value: '\u20b9${_money(q.total)}', total: true),
+                    DvMoneyRow(
+                      label: 'Total payable',
+                      value: '\u20b9${_money(q.total)}',
+                      total: true,
+                    ),
                   ],
                 ),
               ),
@@ -121,7 +155,13 @@ class QuoteScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Why this price?', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                          Text(
+                            'Why this price?',
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(height: 3),
                           Text(
                             'Pandit sets his own dakshina. DivyaSeva adds a flat platform fee, never a hidden margin on his fee.',
@@ -185,8 +225,20 @@ class QuoteScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: Text(label, style: DvText.body(size: 12.5, color: DvColors.amberText))),
-          Text(value, style: DvText.body(size: 12.5, weight: FontWeight.w700, color: DvColors.amberText)),
+          Expanded(
+            child: Text(
+              label,
+              style: DvText.body(size: 12.5, color: DvColors.amberText),
+            ),
+          ),
+          Text(
+            value,
+            style: DvText.body(
+              size: 12.5,
+              weight: FontWeight.w700,
+              color: DvColors.amberText,
+            ),
+          ),
         ],
       ),
     );
@@ -217,12 +269,28 @@ class _PaymentScreenState extends State<PaymentScreen> {
       builder: (context, state) {
         final q = state.quote;
         final part = (q.total * 0.2).round();
+        final payment = context.watch<PaymentCubit>().state;
         return DvScaffold(
           title: 'Payment',
           backPath: Routes.quotePath,
           cta: DvButton(
-            label: 'Pay \u20b9${_money(_selected == 2 ? part : q.total)}',
-            onTap: () => context.go(Routes.confirmedPath),
+            label: payment.status == PaymentFlowStatus.processing
+                ? 'Verifying payment…'
+                : 'Pay \u20b9${_money(_selected == 2 ? part : q.total)}',
+            onTap: payment.status == PaymentFlowStatus.processing
+                ? null
+                : () async {
+                    final paid = await context.read<PaymentCubit>().pay(
+                      amount: _selected == 2 ? part : q.total,
+                      method: _selected == 0
+                          ? 'upi'
+                          : (_selected == 1 ? 'card' : 'deposit'),
+                      reference: 'DV-PB-24817',
+                    );
+                    if (paid && context.mounted) {
+                      context.go(Routes.confirmedPath);
+                    }
+                  },
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +298,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               const DvBanner(
                 icon: Icons.access_time,
                 title: 'Pandit Suresh and your 08:30 slot are held',
-                body: 'Reservation expires in 09:41. Nobody else can take this slot until then.',
+                body:
+                    'Reservation expires in 09:41. Nobody else can take this slot until then.',
               ),
               const SizedBox(height: 16),
               const DvSectionLabel('Pay with'),
@@ -243,12 +312,24 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('UPI', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                        Text('sharad@okhdfc', style: DvText.mono(size: 11, color: DvColors.ink2)),
+                        Text(
+                          'UPI',
+                          style: DvText.body(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          'sharad@okhdfc',
+                          style: DvText.mono(size: 11, color: DvColors.ink2),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 2),
-                    Text('Instant confirmation', style: DvText.body(size: 12, color: DvColors.ink2)),
+                    Text(
+                      'Instant confirmation',
+                      style: DvText.body(size: 12, color: DvColors.ink2),
+                    ),
                   ],
                 ),
               ),
@@ -258,9 +339,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Card', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                    Text(
+                      'Card',
+                      style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 2),
-                    Text('Visa \u2022\u2022\u2022\u2022 4417', style: DvText.body(size: 12, color: DvColors.ink2)),
+                    Text(
+                      'Visa \u2022\u2022\u2022\u2022 4417',
+                      style: DvText.body(size: 12, color: DvColors.ink2),
+                    ),
                   ],
                 ),
               ),
@@ -273,8 +360,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Pay 20% now', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                        Text('\u20b9${_money(part)}', style: DvText.mono(size: 13, weight: FontWeight.w600)),
+                        Text(
+                          'Pay 20% now',
+                          style: DvText.body(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          '\u20b9${_money(part)}',
+                          style: DvText.mono(size: 13, weight: FontWeight.w600),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -303,6 +399,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 body:
                     'Your booking is created only after the payment gateway confirms it to us directly. If the network drops, we reconcile and either confirm or refund \u2014 you are never charged for a booking that does not exist.',
               ),
+              if (payment.status == PaymentFlowStatus.failure) ...[
+                const SizedBox(height: 12),
+                DvBanner(
+                  tone: DvTone.kum,
+                  icon: Icons.error_outline,
+                  title: 'Payment not completed',
+                  body: payment.message ?? 'Please try again.',
+                ),
+              ],
             ],
           ),
         );
@@ -339,7 +444,10 @@ class ConfirmedScreen extends StatelessWidget {
           bottomPadding: 30,
           cta: Column(
             children: [
-              DvButton(label: 'View booking', onTap: () => context.go(Routes.bookingDetailPath)),
+              DvButton(
+                label: 'View booking',
+                onTap: () => context.go(Routes.bookingDetailPath),
+              ),
               const SizedBox(height: 9),
               DvButton(
                 label: 'Open preparation checklist',
@@ -371,7 +479,10 @@ class ConfirmedScreen extends StatelessWidget {
                 style: DvText.body(size: 13.5, color: DvColors.ink2),
               ),
               const SizedBox(height: 12),
-              Text('BOOKING DV-PB-24817', style: DvText.mono(size: 12, color: DvColors.ink3)),
+              Text(
+                'BOOKING DV-PB-24817',
+                style: DvText.mono(size: 12, color: DvColors.ink3),
+              ),
               const SizedBox(height: 18),
               DvCard(
                 child: Column(
@@ -379,7 +490,13 @@ class ConfirmedScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Griha Pravesh', style: DvText.body(size: 14.5, weight: FontWeight.w700)),
+                        Text(
+                          'Griha Pravesh',
+                          style: DvText.body(
+                            size: 14.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                         const DvPill('Confirmed', tone: DvTone.green),
                       ],
                     ),
@@ -402,7 +519,10 @@ class ConfirmedScreen extends StatelessWidget {
                       subtitle: 'Just now \u00b7 11 things to keep ready',
                       state: DvStepState.done,
                     ),
-                    DvStepRow(title: 'Samagri kit delivered', subtitle: 'Fri 11 Sep, before 19:00'),
+                    DvStepRow(
+                      title: 'Samagri kit delivered',
+                      subtitle: 'Fri 11 Sep, before 19:00',
+                    ),
                     DvStepRow(
                       title: 'Reminder + Pandit contact shared',
                       subtitle: 'Fri 11 Sep, 18:00',

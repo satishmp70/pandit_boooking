@@ -54,9 +54,12 @@ class CatalogCubit extends Cubit<CatalogState> {
       final services = await _getServices();
       emit(state.copyWith(status: AsyncStatus.success, services: services));
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 
-  void selectCategory(String category) => emit(state.copyWith(category: category));
+  void selectCategory(String category) =>
+      emit(state.copyWith(category: category));
 }

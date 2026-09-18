@@ -71,7 +71,9 @@ class AccountCubit extends Cubit<AccountState> {
         ),
       );
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 }

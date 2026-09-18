@@ -47,7 +47,9 @@ class PartnerCubit extends Cubit<PartnerState> {
       final dashboard = await _getPartnerDashboard();
       emit(state.copyWith(status: AsyncStatus.success, dashboard: dashboard));
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 }

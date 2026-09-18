@@ -47,7 +47,9 @@ class TrackingCubit extends Cubit<TrackingState> {
       final steps = await _getTrackingSteps();
       emit(state.copyWith(status: AsyncStatus.success, steps: steps));
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 }

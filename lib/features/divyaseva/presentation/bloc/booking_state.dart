@@ -76,7 +76,8 @@ class BookingState extends Equatable {
     if (samagriOptions.isEmpty) return _fallbackSamagri;
     return samagriOptions.firstWhere(
       (s) => s.id == draft.samagriId,
-      orElse: () => samagriOptions.length > 1 ? samagriOptions[1] : samagriOptions.first,
+      orElse: () =>
+          samagriOptions.length > 1 ? samagriOptions[1] : samagriOptions.first,
     );
   }
 

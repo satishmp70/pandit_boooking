@@ -19,7 +19,8 @@ class GetVariants {
   const GetVariants(this._repository);
   final DivyaSevaRepository _repository;
 
-  Future<List<ServiceVariant>> call(String serviceId) => _repository.getVariants(serviceId);
+  Future<List<ServiceVariant>> call(String serviceId) =>
+      _repository.getVariants(serviceId);
 }
 
 class GetSamagriOptions {
@@ -140,7 +141,8 @@ class BuildQuote {
     int discount = 500,
   }) {
     final gst = (platform * 0.18).round();
-    final total = variant.price + samagri.price + gst + travel + platform - discount;
+    final total =
+        variant.price + samagri.price + gst + travel + platform - discount;
     return Quote(
       base: variant.price,
       samagri: samagri.price,

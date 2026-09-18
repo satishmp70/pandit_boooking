@@ -4,4 +4,8 @@ abstract class AuthRepository {
   Future<void> requestOtp(String phone);
 
   Future<DivyaSession> verifyOtp({required String phone, required String code});
+
+  Future<DivyaSession?> getCurrentSession();
+
+  Future<void> logout();
 }

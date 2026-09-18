@@ -24,3 +24,11 @@ class AuthOtpSubmitted extends AuthEvent {
   @override
   List<Object?> get props => [code];
 }
+
+class AuthSessionRestored extends AuthEvent {
+  const AuthSessionRestored();
+}
+
+class AuthLoggedOut extends AuthEvent {
+  const AuthLoggedOut();
+}

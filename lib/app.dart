@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/di/injection_container.dart';
 import 'core/theme/dv_theme.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth_state.dart';
 import 'features/divyaseva/presentation/bloc/booking_bloc.dart';
 import 'features/divyaseva/presentation/bloc/booking_event.dart';
 import 'features/divyaseva/presentation/cubit/account_cubit.dart';
@@ -13,6 +14,7 @@ import 'features/divyaseva/presentation/cubit/catalog_cubit.dart';
 import 'features/divyaseva/presentation/cubit/pandit_match_cubit.dart';
 import 'features/divyaseva/presentation/cubit/partner_cubit.dart';
 import 'features/divyaseva/presentation/cubit/tracking_cubit.dart';
+import 'features/payment/presentation/payment_cubit.dart';
 import 'routes/app_router.dart';
 
 class DivyaSevaApp extends StatelessWidget {
@@ -20,10 +22,13 @@ class DivyaSevaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final router = AppRouter.router;
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<AuthBloc>()),
-        BlocProvider(create: (_) => sl<BookingBloc>()..add(const BookingStarted())),
+        BlocProvider(
+          create: (_) => sl<BookingBloc>()..add(const BookingStarted()),
+        ),
         BlocProvider(create: (_) => sl<CatalogCubit>()),
         BlocProvider(create: (_) => sl<PanditMatchCubit>()),
         BlocProvider(create: (_) => sl<BookingsCubit>()),
@@ -31,12 +36,19 @@ class DivyaSevaApp extends StatelessWidget {
         BlocProvider(create: (_) => sl<TrackingCubit>()),
         BlocProvider(create: (_) => sl<AccountCubit>()),
         BlocProvider(create: (_) => sl<PartnerCubit>()),
+        BlocProvider(create: (_) => sl<PaymentCubit>()),
       ],
-      child: MaterialApp.router(
-        title: 'DivyaSeva',
-        theme: DvTheme.light,
-        routerConfig: AppRouter.router,
-        debugShowCheckedModeBanner: false,
+      child: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (previous, current) => previous.status != current.status,
+        listener: (context, state) {
+          if (state.status == AuthStatus.authenticated) router.go('/home');
+        },
+        child: MaterialApp.router(
+          title: 'DivyaSeva',
+          theme: DvTheme.light,
+          routerConfig: router,
+          debugShowCheckedModeBanner: false,
+        ),
       ),
     );
   }

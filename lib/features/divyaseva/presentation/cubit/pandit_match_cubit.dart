@@ -45,7 +45,9 @@ class PanditMatchCubit extends Cubit<PanditMatchState> {
       final pandits = await _getMatchedPandits();
       emit(state.copyWith(status: AsyncStatus.success, pandits: pandits));
     } catch (error) {
-      emit(state.copyWith(status: AsyncStatus.failure, error: error.toString()));
+      emit(
+        state.copyWith(status: AsyncStatus.failure, error: error.toString()),
+      );
     }
   }
 }

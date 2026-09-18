@@ -88,7 +88,8 @@ class DivyaSevaMockDataSource {
     DivyaService(
       id: 'satyanarayan',
       name: 'Satyanarayan Puja',
-      devanagari: '\u0938\u0924\u094d\u092f\u0928\u093e\u0930\u093e\u092f\u0923',
+      devanagari:
+          '\u0938\u0924\u094d\u092f\u0928\u093e\u0930\u093e\u092f\u0923',
       description: 'Vrat and katha performed for family wellbeing.',
       fromPrice: 4400,
       duration: '2 hr',
@@ -114,7 +115,8 @@ class DivyaSevaMockDataSource {
     DivyaService(
       id: 'lakshmi-puja',
       name: 'Lakshmi Puja',
-      devanagari: '\u0932\u0915\u094d\u0937\u094d\u092e\u0940 \u092a\u0942\u091c\u093e',
+      devanagari:
+          '\u0932\u0915\u094d\u0937\u094d\u092e\u0940 \u092a\u0942\u091c\u093e',
       description: 'Invoking Lakshmi for prosperity and wellbeing at home.',
       fromPrice: 4200,
       duration: '2 hr',
@@ -188,11 +190,14 @@ class DivyaSevaMockDataSource {
 
   Future<List<DivyaService>> getServices() => _resolve(_services);
 
-  Future<DivyaService> getServiceDetail(String id) =>
-      _resolve(_services.firstWhere((s) => s.id == id, orElse: () => _services.first));
+  Future<DivyaService> getServiceDetail(String id) => _resolve(
+    _services.firstWhere((s) => s.id == id, orElse: () => _services.first),
+  );
 
   Future<List<ServiceVariant>> getVariants(String serviceId) => _resolve(
-    _services.firstWhere((s) => s.id == serviceId, orElse: () => _services.first).variants,
+    _services
+        .firstWhere((s) => s.id == serviceId, orElse: () => _services.first)
+        .variants,
   );
 
   Future<List<SamagriOption>> getSamagriOptions() => _resolve(const [
@@ -237,8 +242,14 @@ class DivyaSevaMockDataSource {
     ),
   ]);
 
-  Future<List<String>> getDateOptions() =>
-      _resolve(const ['Today', 'Thu 10', 'Fri 11', 'Sat 12 Sep', 'Sun 13', 'Mon 14']);
+  Future<List<String>> getDateOptions() => _resolve(const [
+    'Today',
+    'Thu 10',
+    'Fri 11',
+    'Sat 12 Sep',
+    'Sun 13',
+    'Mon 14',
+  ]);
 
   Future<List<String>> getStartTimes() =>
       _resolve(const ['07:30', '08:30', '09:30', '10:00']);
@@ -268,7 +279,10 @@ class DivyaSevaMockDataSource {
     PrepItem(label: '1 litre fresh milk', done: false),
     PrepItem(label: 'Flowers, tulsi and 5 seasonal fruits', done: false),
     PrepItem(label: 'Prasad for the number of guests', done: false),
-    PrepItem(label: 'Lift and parking access informed to security', done: false),
+    PrepItem(
+      label: 'Lift and parking access informed to security',
+      done: false,
+    ),
   ]);
 
   Future<List<DivyaBooking>> getBookings() => _resolve(const [
@@ -307,7 +321,11 @@ class DivyaSevaMockDataSource {
   ]);
 
   Future<List<BookingStep>> getBookingSteps() => _resolve(const [
-    BookingStep(title: 'Booking confirmed', subtitle: '02 Sep \u00b7 18:12', state: StepState.done),
+    BookingStep(
+      title: 'Booking confirmed',
+      subtitle: '02 Sep \u00b7 18:12',
+      state: StepState.done,
+    ),
     BookingStep(
       title: 'Pandit assigned & accepted',
       subtitle: '02 Sep \u00b7 18:14 \u00b7 Suresh Joshi',
@@ -318,9 +336,21 @@ class DivyaSevaMockDataSource {
       subtitle: '7 of 11 ready \u00b7 kit arrives 11 Sep',
       state: StepState.now,
     ),
-    BookingStep(title: 'En route', subtitle: 'Expected 12 Sep \u00b7 07:50', state: StepState.idle),
-    BookingStep(title: 'Arrived', subtitle: 'Expected 08:20', state: StepState.idle),
-    BookingStep(title: 'In service', subtitle: '08:30 \u2013 11:00', state: StepState.idle),
+    BookingStep(
+      title: 'En route',
+      subtitle: 'Expected 12 Sep \u00b7 07:50',
+      state: StepState.idle,
+    ),
+    BookingStep(
+      title: 'Arrived',
+      subtitle: 'Expected 08:20',
+      state: StepState.idle,
+    ),
+    BookingStep(
+      title: 'In service',
+      subtitle: '08:30 \u2013 11:00',
+      state: StepState.idle,
+    ),
     BookingStep(
       title: 'Completed & receipt',
       subtitle: 'Record shared with you',
@@ -329,9 +359,21 @@ class DivyaSevaMockDataSource {
   ]);
 
   Future<List<BookingStep>> getTrackingSteps() => _resolve(const [
-    BookingStep(title: 'Accepted', subtitle: '02 Sep \u00b7 18:14', state: StepState.done),
-    BookingStep(title: 'Kit delivered', subtitle: '11 Sep \u00b7 17:40', state: StepState.done),
-    BookingStep(title: 'En route', subtitle: 'Today \u00b7 08:04', state: StepState.now),
+    BookingStep(
+      title: 'Accepted',
+      subtitle: '02 Sep \u00b7 18:14',
+      state: StepState.done,
+    ),
+    BookingStep(
+      title: 'Kit delivered',
+      subtitle: '11 Sep \u00b7 17:40',
+      state: StepState.done,
+    ),
+    BookingStep(
+      title: 'En route',
+      subtitle: 'Today \u00b7 08:04',
+      state: StepState.now,
+    ),
     BookingStep(
       title: 'Arrived \u00b7 then service starts',
       subtitle: 'Expected 08:22',
@@ -384,23 +426,25 @@ class DivyaSevaMockDataSource {
     'Report a Pandit\u2019s conduct',
   ]);
 
-  Future<PartnerDashboard> getPartnerDashboard() => _resolve(const PartnerDashboard(
-    jobsToday: 2,
-    weekEarnings: '\u20b918.4k',
-    onTime: 98,
-    jobs: [
-      PartnerJob(
-        title: 'Satyanarayan Puja',
-        detail: '10:00 \u00b7 Vartak Nagar \u00b7 3.1 km',
-        badge: 'Next',
-        badgeTone: 'green',
-      ),
-      PartnerJob(
-        title: 'Rudrabhishek',
-        detail: '17:30 \u00b7 Ghodbunder \u00b7 9.4 km',
-        badge: 'Later',
-        badgeTone: 'neutral',
-      ),
-    ],
-  ));
+  Future<PartnerDashboard> getPartnerDashboard() => _resolve(
+    const PartnerDashboard(
+      jobsToday: 2,
+      weekEarnings: '\u20b918.4k',
+      onTime: 98,
+      jobs: [
+        PartnerJob(
+          title: 'Satyanarayan Puja',
+          detail: '10:00 \u00b7 Vartak Nagar \u00b7 3.1 km',
+          badge: 'Next',
+          badgeTone: 'green',
+        ),
+        PartnerJob(
+          title: 'Rudrabhishek',
+          detail: '17:30 \u00b7 Ghodbunder \u00b7 9.4 km',
+          badge: 'Later',
+          badgeTone: 'neutral',
+        ),
+      ],
+    ),
+  );
 }

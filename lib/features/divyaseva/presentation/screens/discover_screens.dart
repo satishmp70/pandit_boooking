@@ -26,12 +26,25 @@ class ConciergeScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Understood: Griha Pravesh \u00b7 Thane West', style: DvText.body(size: 12, color: DvColors.ink2)),
-              Text('Talk to a human', style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum)),
+              Text(
+                'Understood: Griha Pravesh \u00b7 Thane West',
+                style: DvText.body(size: 12, color: DvColors.ink2),
+              ),
+              Text(
+                'Talk to a human',
+                style: DvText.body(
+                  size: 12,
+                  weight: FontWeight.w700,
+                  color: DvColors.kum,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 9),
-          DvButton(label: 'Continue with Standard', onTap: () => context.go(Routes.servicePath)),
+          DvButton(
+            label: 'Continue with Standard',
+            onTap: () => context.go(Routes.servicePath),
+          ),
         ],
       ),
       child: Column(
@@ -41,7 +54,10 @@ class ConciergeScreen extends StatelessWidget {
             'Namaste \uD83D\uDE4F Tell me what is happening at home \u2014 in your own words, any language.',
             me: false,
           ),
-          _bubble('We are moving into our new flat in Thane next week. What should we do?', me: true),
+          _bubble(
+            'We are moving into our new flat in Thane next week. What should we do?',
+            me: true,
+          ),
           _bubble(
             'That sounds like a Griha Pravesh \u2014 the ceremony done before a family first occupies a new home.\n\nPractices vary by family and region, so I will show you approved options rather than a ruling.',
             me: false,
@@ -55,8 +71,14 @@ class ConciergeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Griha Pravesh \u00b7 Standard', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                    Text('\u20b95,100', style: DvText.mono(size: 13, weight: FontWeight.w600)),
+                    Text(
+                      'Griha Pravesh \u00b7 Standard',
+                      style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                    ),
+                    Text(
+                      '\u20b95,100',
+                      style: DvText.mono(size: 13, weight: FontWeight.w600),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 3),
@@ -77,8 +99,14 @@ class ConciergeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Griha Pravesh + Vastu Shanti', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                    Text('\u20b99,200', style: DvText.mono(size: 13, weight: FontWeight.w600)),
+                    Text(
+                      'Griha Pravesh + Vastu Shanti',
+                      style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                    ),
+                    Text(
+                      '\u20b99,200',
+                      style: DvText.mono(size: 13, weight: FontWeight.w600),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 3),
@@ -128,7 +156,11 @@ class ConciergeScreen extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: DvText.body(size: 13, color: me ? Colors.white : DvColors.ink, height: 1.45),
+          style: DvText.body(
+            size: 13,
+            color: me ? Colors.white : DvColors.ink,
+            height: 1.45,
+          ),
         ),
       ),
     );
@@ -138,7 +170,13 @@ class ConciergeScreen extends StatelessWidget {
 class CatalogScreen extends StatelessWidget {
   const CatalogScreen({super.key});
 
-  static const _categories = ['Home & property', 'Common pujas', 'Sanskar', 'Ancestral', 'Festival'];
+  static const _categories = [
+    'Home & property',
+    'Common pujas',
+    'Sanskar',
+    'Ancestral',
+    'Festival',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +190,10 @@ class CatalogScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: DvColors.surface,
                   border: Border.all(color: DvColors.line),
@@ -176,17 +217,22 @@ class CatalogScreen extends StatelessWidget {
                     DvChip(
                       category,
                       selected: category == state.category,
-                      onTap: () => context.read<CatalogCubit>().selectCategory(category),
+                      onTap: () =>
+                          context.read<CatalogCubit>().selectCategory(category),
                     ),
                 ],
               ),
               const SizedBox(height: 16),
-              DvSectionLabel('${state.category} \u00b7 ${state.visible.length} services'),
+              DvSectionLabel(
+                '${state.category} \u00b7 ${state.visible.length} services',
+              ),
               const SizedBox(height: 10),
               if (state.status == AsyncStatus.loading)
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: CircularProgressIndicator(color: DvColors.kum)),
+                  child: Center(
+                    child: CircularProgressIndicator(color: DvColors.kum),
+                  ),
                 )
               else if (state.visible.isEmpty)
                 DvCard(
@@ -203,7 +249,12 @@ class CatalogScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       for (var i = 0; i < state.visible.length; i++) ...[
-                        if (i > 0) const Divider(height: 1, thickness: 1, color: DvColors.line2),
+                        if (i > 0)
+                          const Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: DvColors.line2,
+                          ),
                         _row(context, state.visible[i]),
                       ],
                     ],
@@ -214,7 +265,8 @@ class CatalogScreen extends StatelessWidget {
                 tone: DvTone.green,
                 icon: Icons.wb_sunny_outlined,
                 title: 'Cannot find your ceremony?',
-                body: 'Regional names differ. Describe it to the concierge and we will map it to the right service.',
+                body:
+                    'Regional names differ. Describe it to the concierge and we will map it to the right service.',
               ),
             ],
           ),
@@ -230,7 +282,9 @@ class CatalogScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: available
             ? () {
-                context.read<BookingBloc>().add(BookingServiceSelected(service.id));
+                context.read<BookingBloc>().add(
+                  BookingServiceSelected(service.id),
+                );
                 context.go(Routes.servicePath);
               }
             : null,
@@ -244,7 +298,10 @@ class CatalogScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Text(service.name, style: DvText.body(size: 14.5, weight: FontWeight.w700)),
+                    child: Text(
+                      service.name,
+                      style: DvText.body(size: 14.5, weight: FontWeight.w700),
+                    ),
                   ),
                   if (available)
                     Text(
@@ -299,11 +356,17 @@ class ServiceDetailScreen extends StatelessWidget {
                     '${state.variant.name} \u00b7 ${state.variant.duration}',
                     style: DvText.body(size: 12.5, color: DvColors.ink2),
                   ),
-                  Text('\u20b9${_money(state.variant.price)}', style: DvText.mono(size: 13, weight: FontWeight.w700)),
+                  Text(
+                    '\u20b9${_money(state.variant.price)}',
+                    style: DvText.mono(size: 13, weight: FontWeight.w700),
+                  ),
                 ],
               ),
               const SizedBox(height: 9),
-              DvButton(label: 'Choose date and location', onTap: () => context.go(Routes.locationPath)),
+              DvButton(
+                label: 'Choose date and location',
+                onTap: () => context.go(Routes.locationPath),
+              ),
             ],
           ),
           child: Column(
@@ -323,7 +386,9 @@ class ServiceDetailScreen extends StatelessWidget {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(16),
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -332,9 +397,19 @@ class ServiceDetailScreen extends StatelessWidget {
                           if ((service?.devanagari ?? '').isNotEmpty)
                             Text(
                               service!.devanagari,
-                              style: DvText.body(size: 15, color: DvColors.gold, spacing: 3),
+                              style: DvText.body(
+                                size: 15,
+                                color: DvColors.gold,
+                                spacing: 3,
+                              ),
                             ),
-                          Text(service?.name ?? 'Service', style: DvText.display(size: 25, color: Colors.white)),
+                          Text(
+                            service?.name ?? 'Service',
+                            style: DvText.display(
+                              size: 25,
+                              color: Colors.white,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -342,7 +417,10 @@ class ServiceDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(14),
                       child: Row(
                         children: [
-                          DvPill('\u2713 ${service?.panditsNearby ?? 0} Pandits nearby', tone: DvTone.green),
+                          DvPill(
+                            '\u2713 ${service?.panditsNearby ?? 0} Pandits nearby',
+                            tone: DvTone.green,
+                          ),
                           const SizedBox(width: 8),
                           DvPill(
                             '\u2605 ${service?.rating ?? 0} \u00b7 ${service?.completed ?? 0} done',
@@ -363,12 +441,14 @@ class ServiceDetailScreen extends StatelessWidget {
                 style: DvText.body(size: 13.5, color: DvColors.ink2),
               ),
               const SizedBox(height: 16),
-               Text('Choose a variant', style: DvText.eyebrow()),
+              Text('Choose a variant', style: DvText.eyebrow()),
               const SizedBox(height: 10),
               for (final variant in state.variants) ...[
                 DvOptionRow(
                   selected: state.draft.variantId == variant.id,
-                  onTap: () => context.read<BookingBloc>().add(BookingVariantSelected(variant.id)),
+                  onTap: () => context.read<BookingBloc>().add(
+                    BookingVariantSelected(variant.id),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -376,11 +456,20 @@ class ServiceDetailScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: Text(variant.name, style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                            child: Text(
+                              variant.name,
+                              style: DvText.body(
+                                size: 13.5,
+                                weight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                           Text(
                             '\u20b9${_money(variant.price)}',
-                            style: DvText.mono(size: 13.5, weight: FontWeight.w600),
+                            style: DvText.mono(
+                              size: 13.5,
+                              weight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
@@ -411,9 +500,15 @@ class ServiceDetailScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 7),
                         child: Row(
                           children: [
-                            const Icon(Icons.check, size: 15, color: DvColors.green),
+                            const Icon(
+                              Icons.check,
+                              size: 15,
+                              color: DvColors.green,
+                            ),
                             const SizedBox(width: 8),
-                            Expanded(child: Text(line, style: DvText.body(size: 12.5))),
+                            Expanded(
+                              child: Text(line, style: DvText.body(size: 12.5)),
+                            ),
                           ],
                         ),
                       ),
@@ -425,9 +520,21 @@ class ServiceDetailScreen extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 7),
                         child: Row(
                           children: [
-                            const Icon(Icons.remove, size: 15, color: DvColors.ink3),
+                            const Icon(
+                              Icons.remove,
+                              size: 15,
+                              color: DvColors.ink3,
+                            ),
                             const SizedBox(width: 8),
-                            Expanded(child: Text(line, style: DvText.body(size: 12.5, color: DvColors.ink2))),
+                            Expanded(
+                              child: Text(
+                                line,
+                                style: DvText.body(
+                                  size: 12.5,
+                                  color: DvColors.ink2,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

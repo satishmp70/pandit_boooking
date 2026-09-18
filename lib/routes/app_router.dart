@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../features/auth/presentation/screens/auth_screens.dart';
+import '../features/auth/presentation/auth_access.dart';
 import '../features/divyaseva/presentation/screens/account_screens.dart';
 import '../features/divyaseva/presentation/screens/complete_screens.dart';
 import '../features/divyaseva/presentation/screens/configure_screens.dart';
@@ -17,6 +18,16 @@ class AppRouter {
 
   static GoRouter get router => GoRouter(
     initialLocation: Routes.splashPath,
+    redirect: (context, state) {
+      const publicPaths = {Routes.splashPath, Routes.loginPath, Routes.otpPath};
+      final isPublic = publicPaths.contains(state.matchedLocation);
+      if (!isPublic && !AuthAccess.isAuthenticated) return Routes.splashPath;
+      if (state.matchedLocation == Routes.splashPath &&
+          AuthAccess.isAuthenticated) {
+        return Routes.homePath;
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         path: Routes.splashPath,

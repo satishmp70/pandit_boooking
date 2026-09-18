@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pandit_booking/app.dart';
+import 'package:pandit_booking/core/widgets/dv_widgets.dart';
 import 'package:pandit_booking/core/di/injection_container.dart' as di;
 
 Future<void> _reachHome(WidgetTester tester) async {
@@ -31,7 +32,7 @@ Future<void> _reachHomeWithEnteredData(WidgetTester tester) async {
 
   final otp = find.byType(TextField);
   for (var i = 0; i < 6; i++) {
-    await tester.enterText(otp.at(i), '123456'[i]);
+    await tester.enterText(otp.at(i), '492700'[i]);
   }
   await tester.tap(find.text('Verify and continue'));
   await tester.pumpAndSettle();
@@ -153,8 +154,14 @@ void main() {
     expect(find.text('Payment'), findsOneWidget);
 
     await tester.tap(find.text('Pay 20% now'));
-    await tester.tap(find.textContaining('Pay ₹'));
     await tester.pumpAndSettle();
+    await tester.tap(
+      find.byWidgetPredicate(
+        (widget) => widget is DvButton && widget.label.startsWith('Pay '),
+      ),
+    );
+    await tester.pump(const Duration(milliseconds: 500));
+    await tester.pump(const Duration(milliseconds: 250));
     expect(find.text('Your Pandit is booked'), findsOneWidget);
   });
 

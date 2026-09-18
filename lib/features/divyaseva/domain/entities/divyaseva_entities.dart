@@ -139,7 +139,15 @@ class Quote extends Equatable {
   final int total;
 
   @override
-  List<Object?> get props => [base, samagri, gst, travel, platform, discount, total];
+  List<Object?> get props => [
+    base,
+    samagri,
+    gst,
+    travel,
+    platform,
+    discount,
+    total,
+  ];
 }
 
 class BookingDraft extends Equatable {
@@ -211,7 +219,11 @@ class BookingDraft extends Equatable {
 enum StepState { done, now, idle }
 
 class BookingStep extends Equatable {
-  const BookingStep({required this.title, required this.subtitle, required this.state});
+  const BookingStep({
+    required this.title,
+    required this.subtitle,
+    required this.state,
+  });
 
   final String title;
   final String subtitle;

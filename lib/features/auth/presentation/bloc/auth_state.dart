@@ -2,7 +2,14 @@ import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/divya_session.dart';
 
-enum AuthStatus { idle, requestingOtp, otpRequested, verifying, authenticated, failure }
+enum AuthStatus {
+  idle,
+  requestingOtp,
+  otpRequested,
+  verifying,
+  authenticated,
+  failure,
+}
 
 class AuthState extends Equatable {
   const AuthState({

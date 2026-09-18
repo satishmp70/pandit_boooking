@@ -7,7 +7,13 @@ import '../theme/dv_theme.dart';
 /// Real Material app bar used by [DvScaffold]. Back navigation goes through
 /// go_router, and the system status bar is drawn by the OS (not by the app).
 class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const DvAppBar({this.title = '', this.backPath, this.rightLabel, this.onRight, super.key});
+  const DvAppBar({
+    this.title = '',
+    this.backPath,
+    this.rightLabel,
+    this.onRight,
+    super.key,
+  });
 
   final String title;
   final String? backPath;
@@ -40,7 +46,11 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
       title: Text(
         title,
-        style: DvText.body(size: 16, weight: FontWeight.w700, color: DvColors.ink),
+        style: DvText.body(
+          size: 16,
+          weight: FontWeight.w700,
+          color: DvColors.ink,
+        ),
       ),
       actions: rightLabel == null
           ? null
@@ -49,7 +59,11 @@ class DvAppBar extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: onRight,
                 child: Text(
                   rightLabel!,
-                  style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum),
+                  style: DvText.body(
+                    size: 12,
+                    weight: FontWeight.w700,
+                    color: DvColors.kum,
+                  ),
                 ),
               ),
               const SizedBox(width: 6),
@@ -107,8 +121,20 @@ class DvTabBar extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _tab(context, 'home', Icons.wb_sunny_outlined, 'Home', Routes.homePath),
-                _tab(context, 'bookings', Icons.calendar_today_outlined, 'Bookings', Routes.bookingsPath),
+                _tab(
+                  context,
+                  'home',
+                  Icons.wb_sunny_outlined,
+                  'Home',
+                  Routes.homePath,
+                ),
+                _tab(
+                  context,
+                  'bookings',
+                  Icons.calendar_today_outlined,
+                  'Bookings',
+                  Routes.bookingsPath,
+                ),
                 Expanded(
                   child: GestureDetector(
                     onTap: () => context.go(Routes.conciergePath),
@@ -128,15 +154,31 @@ class DvTabBar extends StatelessWidget {
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                            child: const Icon(
+                              Icons.auto_awesome,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                _tab(context, 'family', Icons.family_restroom, 'Family', Routes.familyPath),
-                _tab(context, 'account', Icons.person_outline, 'Account', Routes.accountPath),
+                _tab(
+                  context,
+                  'family',
+                  Icons.family_restroom,
+                  'Family',
+                  Routes.familyPath,
+                ),
+                _tab(
+                  context,
+                  'account',
+                  Icons.person_outline,
+                  'Account',
+                  Routes.accountPath,
+                ),
               ],
             ),
           ),
@@ -145,7 +187,13 @@ class DvTabBar extends StatelessWidget {
     );
   }
 
-  Widget _tab(BuildContext context, String key, IconData icon, String label, String path) {
+  Widget _tab(
+    BuildContext context,
+    String key,
+    IconData icon,
+    String label,
+    String path,
+  ) {
     final on = active == key;
     final color = on ? DvColors.kum : DvColors.ink3;
     return Expanded(
@@ -156,7 +204,14 @@ class DvTabBar extends StatelessWidget {
           children: [
             Icon(icon, size: 20, color: color),
             const SizedBox(height: 4),
-            Text(label, style: DvText.body(size: 9.5, weight: FontWeight.w600, color: color)),
+            Text(
+              label,
+              style: DvText.body(
+                size: 9.5,
+                weight: FontWeight.w600,
+                color: color,
+              ),
+            ),
           ],
         ),
       ),
@@ -229,7 +284,12 @@ class DvScaffold extends StatelessWidget {
             if (wizardStep > 0) DvWizard(step: wizardStep),
             Expanded(
               child: SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(padded ? 18 : 0, 8, padded ? 18 : 0, bottomPadding),
+                padding: EdgeInsets.fromLTRB(
+                  padded ? 18 : 0,
+                  8,
+                  padded ? 18 : 0,
+                  bottomPadding,
+                ),
                 child: child,
               ),
             ),
@@ -271,7 +331,11 @@ class DvCard extends StatelessWidget {
       child: child,
     );
     if (onTap == null) return content;
-    return GestureDetector(onTap: onTap, behavior: HitTestBehavior.opaque, child: content);
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: content,
+    );
   }
 }
 
@@ -315,8 +379,14 @@ class DvPill extends StatelessWidget {
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
-      child: Text(text, style: DvText.body(size: 10.5, weight: FontWeight.w700, color: fg)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        text,
+        style: DvText.body(size: 10.5, weight: FontWeight.w700, color: fg),
+      ),
     );
   }
 }
@@ -426,7 +496,10 @@ class DvBanner extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(15)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -436,9 +509,23 @@ class DvBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: DvText.body(size: 12.5, weight: FontWeight.w700, color: DvColors.ink)),
+                Text(
+                  title,
+                  style: DvText.body(
+                    size: 12.5,
+                    weight: FontWeight.w700,
+                    color: DvColors.ink,
+                  ),
+                ),
                 const SizedBox(height: 3),
-                Text(body, style: DvText.body(size: 12, color: DvColors.ink2, height: 1.4)),
+                Text(
+                  body,
+                  style: DvText.body(
+                    size: 12,
+                    color: DvColors.ink2,
+                    height: 1.4,
+                  ),
+                ),
               ],
             ),
           ),
@@ -468,7 +555,10 @@ class DvMoneyRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final labelStyle = total
         ? DvText.body(size: 14, weight: FontWeight.w700, color: DvColors.ink)
-        : DvText.body(size: 12.5, color: discount ? DvColors.green : DvColors.ink2);
+        : DvText.body(
+            size: 12.5,
+            color: discount ? DvColors.green : DvColors.ink2,
+          );
     final valueStyle = total
         ? DvText.mono(size: 15, weight: FontWeight.w700, color: DvColors.ink)
         : DvText.mono(
@@ -509,7 +599,9 @@ class DvStepRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final done = state == DvStepState.done;
     final now = state == DvStepState.now;
-    final circleColor = done ? DvColors.green : (now ? DvColors.kum : DvColors.line);
+    final circleColor = done
+        ? DvColors.green
+        : (now ? DvColors.kum : DvColors.line);
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -521,21 +613,32 @@ class DvStepRow extends StatelessWidget {
                 height: 22,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: done ? DvColors.greenSoft : (now ? DvColors.kumSoft : DvColors.line2),
+                  color: done
+                      ? DvColors.greenSoft
+                      : (now ? DvColors.kumSoft : DvColors.line2),
                   border: Border.all(color: circleColor, width: 1.4),
                   shape: BoxShape.circle,
                 ),
                 child: done
                     ? const Icon(Icons.check, size: 13, color: DvColors.green)
                     : (now
-                        ? Container(
-                            width: 8,
-                            height: 8,
-                            decoration: const BoxDecoration(color: DvColors.kum, shape: BoxShape.circle),
-                          )
-                        : null),
+                          ? Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: DvColors.kum,
+                                shape: BoxShape.circle,
+                              ),
+                            )
+                          : null),
               ),
-              if (!last) Expanded(child: Container(width: 1.4, color: done ? DvColors.green : DvColors.line)),
+              if (!last)
+                Expanded(
+                  child: Container(
+                    width: 1.4,
+                    color: done ? DvColors.green : DvColors.line,
+                  ),
+                ),
             ],
           ),
           const SizedBox(width: 12),
@@ -550,11 +653,16 @@ class DvStepRow extends StatelessWidget {
                     style: DvText.body(
                       size: 13,
                       weight: FontWeight.w700,
-                      color: state == DvStepState.idle ? DvColors.ink3 : DvColors.ink,
+                      color: state == DvStepState.idle
+                          ? DvColors.ink3
+                          : DvColors.ink,
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(subtitle, style: DvText.body(size: 11.5, color: DvColors.ink3)),
+                  Text(
+                    subtitle,
+                    style: DvText.body(size: 11.5, color: DvColors.ink3),
+                  ),
                 ],
               ),
             ),
@@ -600,14 +708,23 @@ class DvStars extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         for (var i = 0; i < 5; i++)
-          Icon(i < count ? Icons.star : Icons.star_border, size: size, color: DvColors.brass),
+          Icon(
+            i < count ? Icons.star : Icons.star_border,
+            size: size,
+            color: DvColors.brass,
+          ),
       ],
     );
   }
 }
 
 class DvAvatar extends StatelessWidget {
-  const DvAvatar(this.initials, {this.tone = DvTone.kum, this.size = 42, super.key});
+  const DvAvatar(
+    this.initials, {
+    this.tone = DvTone.kum,
+    this.size = 42,
+    super.key,
+  });
 
   final String initials;
   final DvTone tone;
@@ -644,13 +761,25 @@ class DvAvatar extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(color: bg, shape: BoxShape.circle),
-      child: Text(initials, style: DvText.body(size: size * 0.32, weight: FontWeight.w700, color: fg)),
+      child: Text(
+        initials,
+        style: DvText.body(
+          size: size * 0.32,
+          weight: FontWeight.w700,
+          color: fg,
+        ),
+      ),
     );
   }
 }
 
 class DvOptionRow extends StatelessWidget {
-  const DvOptionRow({required this.selected, required this.child, this.onTap, super.key});
+  const DvOptionRow({
+    required this.selected,
+    required this.child,
+    this.onTap,
+    super.key,
+  });
 
   final bool selected;
   final Widget child;
@@ -665,7 +794,10 @@ class DvOptionRow extends StatelessWidget {
         padding: const EdgeInsets.all(13),
         decoration: BoxDecoration(
           color: DvColors.surface,
-          border: Border.all(color: selected ? DvColors.kum : DvColors.line, width: selected ? 1.4 : 1),
+          border: Border.all(
+            color: selected ? DvColors.kum : DvColors.line,
+            width: selected ? 1.4 : 1,
+          ),
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -677,14 +809,20 @@ class DvOptionRow extends StatelessWidget {
               margin: const EdgeInsets.only(top: 1),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(color: selected ? DvColors.kum : DvColors.line, width: 1.6),
+                border: Border.all(
+                  color: selected ? DvColors.kum : DvColors.line,
+                  width: 1.6,
+                ),
               ),
               child: selected
                   ? Center(
                       child: Container(
                         width: 9,
                         height: 9,
-                        decoration: const BoxDecoration(color: DvColors.kum, shape: BoxShape.circle),
+                        decoration: const BoxDecoration(
+                          color: DvColors.kum,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     )
                   : null,
@@ -719,7 +857,14 @@ class DvField extends StatelessWidget {
         children: [
           Text(label, style: DvText.eyebrow()),
           const SizedBox(height: 3),
-          Text(value, style: DvText.body(size: 13.5, weight: FontWeight.w600, color: DvColors.ink)),
+          Text(
+            value,
+            style: DvText.body(
+              size: 13.5,
+              weight: FontWeight.w600,
+              color: DvColors.ink,
+            ),
+          ),
         ],
       ),
     );
@@ -802,8 +947,18 @@ class DvButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (icon != null) ...[Icon(icon, size: small ? 16 : 18, color: fg), const SizedBox(width: 8)],
-            Text(label, style: DvText.body(size: small ? 13 : 15, weight: FontWeight.w700, color: fg)),
+            if (icon != null) ...[
+              Icon(icon, size: small ? 16 : 18, color: fg),
+              const SizedBox(width: 8),
+            ],
+            Text(
+              label,
+              style: DvText.body(
+                size: small ? 13 : 15,
+                weight: FontWeight.w700,
+                color: fg,
+              ),
+            ),
           ],
         ),
       ),
@@ -821,14 +976,21 @@ class DvHero extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(18, 8 + MediaQuery.of(context).padding.top, 18, 18),
+      padding: EdgeInsets.fromLTRB(
+        18,
+        8 + MediaQuery.of(context).padding.top,
+        18,
+        18,
+      ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [DvColors.heroStart, DvColors.heroEnd],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.vertical(bottom: Radius.circular(radiusBottom)),
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(radiusBottom),
+        ),
       ),
       child: child,
     );
