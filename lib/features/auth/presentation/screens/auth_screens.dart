@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/theme/dv_theme.dart';
 import '../../../../core/widgets/dv_widgets.dart';
@@ -14,52 +15,105 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF2A2352), Color(0xFF1A1636), Color(0xFF3C2140)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
+        systemNavigationBarColor: Color(0xFF0D0915),
+        systemNavigationBarIconBrightness: Brightness.light,
+      ),
+      child: Scaffold(
+        backgroundColor: const Color(0xFF21173C),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF2C205D), Color(0xFF21173C), Color(0xFF402345)],
+              stops: [0, 0.56, 1],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 24),
+              child: Column(
+                children: [
+                  const Spacer(flex: 5),
+                  const _SplashMark(),
+                  const SizedBox(height: 16),
+                  Text(
+                    '\u0926\u093f\u0935\u094d\u092f\u0938\u0947\u0935\u093e',
+                    style: DvText.body(
+                      size: 20,
+                      color: DvColors.gold,
+                      spacing: 6,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'DivyaSeva',
+                    style: DvText.display(size: 38, color: Colors.white),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    'A trusted Pandit, actually arranged for you.',
+                    textAlign: TextAlign.center,
+                    style: DvText.body(
+                      size: 14,
+                      color: const Color(0xFFC6BEDD),
+                      height: 1.55,
+                    ),
+                  ),
+                  const Spacer(flex: 6),
+                  DvButton(
+                    label: 'Get started',
+                    onTap: () => context.go(Routes.loginPath),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    'Serving Mumbai \u00b7 Thane \u00b7 Navi Mumbai',
+                    style: DvText.body(
+                      size: 11.5,
+                      color: const Color(0xFF8F87AB),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              const Spacer(),
-              Container(
-                width: 86,
-                height: 86,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: DvColors.gold, width: 1),
-                ),
-                child: const Icon(Icons.filter_vintage, color: Color(0xFFE27065), size: 40),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                '\u0926\u093f\u0935\u094d\u092f\u0938\u0947\u0935\u093e',
-                style: DvText.body(size: 20, color: DvColors.gold, spacing: 6),
-              ),
-              const SizedBox(height: 6),
-              Text('DivyaSeva', style: DvText.display(size: 38, color: Colors.white)),
-              const SizedBox(height: 10),
-              Text(
-                'A trusted Pandit, actually arranged for you.',
-                textAlign: TextAlign.center,
-                style: DvText.body(size: 14, color: const Color(0xFFC6BEDD), height: 1.55),
-              ),
-              const Spacer(),
-              DvButton(label: 'Get started', onTap: () => context.go(Routes.loginPath)),
-              const SizedBox(height: 14),
-              Text(
-                'Serving Mumbai \u00b7 Thane \u00b7 Navi Mumbai',
-                style: DvText.body(size: 11.5, color: const Color(0xFF8F87AB)),
-              ),
-              const SizedBox(height: 30),
-            ],
-          ),
+    );
+  }
+}
+
+class _SplashMark extends StatelessWidget {
+  const _SplashMark();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 86,
+      height: 86,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: DvColors.gold, width: 1.1),
+      ),
+      child: Container(
+        width: 72,
+        height: 72,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: DvColors.gold.withAlpha(150), width: 1),
+        ),
+        child: const Icon(
+          Icons.filter_vintage,
+          color: Color(0xFFE27065),
+          size: 40,
         ),
       ),
     );
@@ -76,7 +130,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _phoneController;
 
-  static const _languages = ['English', '\u0939\u093f\u0902\u0926\u0940', '\u092e\u0930\u093e\u0920\u0940'];
+  static const _languages = [
+    'English',
+    '\u0939\u093f\u0902\u0926\u0940',
+    '\u092e\u0930\u093e\u0920\u0940',
+  ];
 
   @override
   void initState() {
@@ -100,7 +158,9 @@ class _LoginScreenState extends State<LoginScreen> {
             label: state.isBusy ? 'Sending\u2026' : 'Send OTP',
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
-              context.read<AuthBloc>().add(AuthOtpRequested('+91 ${_phoneController.text.trim()}'));
+              context.read<AuthBloc>().add(
+                AuthOtpRequested('+91 ${_phoneController.text.trim()}'),
+              );
               context.go(Routes.otpPath);
             },
           ),
@@ -108,7 +168,10 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              Text('Book a verified Pandit\nfor your home', style: DvText.display(size: 26)),
+              Text(
+                'Book a verified Pandit\nfor your home',
+                style: DvText.display(size: 26),
+              ),
               const SizedBox(height: 8),
               Text(
                 'We will send a one-time code to confirm it is you. No password to remember.',
@@ -133,7 +196,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(13),
-                    borderSide: const BorderSide(color: DvColors.kum, width: 1.4),
+                    borderSide: const BorderSide(
+                      color: DvColors.kum,
+                      width: 1.4,
+                    ),
                   ),
                 ),
               ),
@@ -151,13 +217,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.family_restroom, size: 20, color: DvColors.ink2),
+                    const Icon(
+                      Icons.family_restroom,
+                      size: 20,
+                      color: DvColors.ink2,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Booking for your parents?', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                          Text(
+                            'Booking for your parents?',
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(height: 3),
                           Text(
                             'Add them to a Family Dharma Account after login \u2014 you pay, they receive the service.',
@@ -217,7 +293,8 @@ class _OtpScreenState extends State<OtpScreen> {
     super.dispose();
   }
 
-  String get _code => _codeControllers.map((controller) => controller.text).join();
+  String get _code =>
+      _codeControllers.map((controller) => controller.text).join();
 
   @override
   Widget build(BuildContext context) {
@@ -245,10 +322,26 @@ class _OtpScreenState extends State<OtpScreen> {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Text('Sent to ', style: DvText.body(size: 13.5, color: DvColors.ink2)),
-                  Text(state.phone, style: DvText.mono(size: 13, weight: FontWeight.w600)),
-                  Text(' \u00b7 ', style: DvText.body(size: 13.5, color: DvColors.ink2)),
-                  Text('Change', style: DvText.body(size: 13.5, weight: FontWeight.w700, color: DvColors.kum)),
+                  Text(
+                    'Sent to ',
+                    style: DvText.body(size: 13.5, color: DvColors.ink2),
+                  ),
+                  Text(
+                    state.phone,
+                    style: DvText.mono(size: 13, weight: FontWeight.w600),
+                  ),
+                  Text(
+                    ' \u00b7 ',
+                    style: DvText.body(size: 13.5, color: DvColors.ink2),
+                  ),
+                  Text(
+                    'Change',
+                    style: DvText.body(
+                      size: 13.5,
+                      weight: FontWeight.w700,
+                      color: DvColors.kum,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
@@ -283,7 +376,10 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: DvColors.kum, width: 1.4),
+                            borderSide: const BorderSide(
+                              color: DvColors.kum,
+                              width: 1.4,
+                            ),
                           ),
                         ),
                       ),
@@ -302,8 +398,14 @@ class _OtpScreenState extends State<OtpScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Did not get it?', style: DvText.body(size: 12, color: DvColors.ink2)),
-                  Text('Resend in 0:24', style: DvText.mono(size: 12, color: DvColors.ink3)),
+                  Text(
+                    'Did not get it?',
+                    style: DvText.body(size: 12, color: DvColors.ink2),
+                  ),
+                  Text(
+                    'Resend in 0:24',
+                    style: DvText.mono(size: 12, color: DvColors.ink3),
+                  ),
                 ],
               ),
               const DvDivider(),
@@ -319,7 +421,13 @@ class _OtpScreenState extends State<OtpScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Prefer to book by phone?', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                          Text(
+                            'Prefer to book by phone?',
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(height: 3),
                           Text(
                             'Call 1800-000-000 and our team will arrange the Pandit for you. Useful for elders.',

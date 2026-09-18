@@ -42,7 +42,8 @@ class BookingsScreen extends StatelessWidget {
                     DvChip(
                       filter,
                       selected: state.filter == filter,
-                      onTap: () => context.read<BookingsCubit>().selectFilter(filter),
+                      onTap: () =>
+                          context.read<BookingsCubit>().selectFilter(filter),
                     ),
                 ],
               ),
@@ -50,7 +51,9 @@ class BookingsScreen extends StatelessWidget {
               if (state.status == AsyncStatus.loading)
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 60),
-                  child: Center(child: CircularProgressIndicator(color: DvColors.kum)),
+                  child: Center(
+                    child: CircularProgressIndicator(color: DvColors.kum),
+                  ),
                 )
               else
                 for (final booking in state.bookings) ...[
@@ -90,9 +93,15 @@ class BookingsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(booking.service, style: DvText.body(size: 14.5, weight: FontWeight.w700)),
+                    Text(
+                      booking.service,
+                      style: DvText.body(size: 14.5, weight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 3),
-                    Text(booking.when, style: DvText.mono(size: 11, color: DvColors.ink3)),
+                    Text(
+                      booking.when,
+                      style: DvText.mono(size: 11, color: DvColors.ink3),
+                    ),
                   ],
                 ),
               ),
@@ -109,11 +118,15 @@ class BookingsScreen extends StatelessWidget {
               Text(
                 active
                     ? 'Arriving in 6 minutes'
-                    : (needsAction ? 'Pandit changed \u2014 confirm your backup' : 'View service record'),
+                    : (needsAction
+                          ? 'Pandit changed \u2014 confirm your backup'
+                          : 'View service record'),
                 style: DvText.body(size: 12, color: DvColors.ink2),
               ),
               Text(
-                active ? 'Track live \u203a' : (needsAction ? 'Review \u203a' : 'Open \u203a'),
+                active
+                    ? 'Track live \u203a'
+                    : (needsAction ? 'Review \u203a' : 'Open \u203a'),
                 style: DvText.body(
                   size: 11.5,
                   weight: FontWeight.w700,
@@ -158,13 +171,22 @@ class FamilyScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('FAMILY DHARMA ACCOUNT', style: DvText.eyebrow(color: DvColors.gold)),
+                    Text(
+                      'FAMILY DHARMA ACCOUNT',
+                      style: DvText.eyebrow(color: DvColors.gold),
+                    ),
                     const SizedBox(height: 5),
-                    Text('Kulkarni Parivar', style: DvText.display(size: 23, color: Colors.white)),
+                    Text(
+                      'Kulkarni Parivar',
+                      style: DvText.display(size: 23, color: Colors.white),
+                    ),
                     const SizedBox(height: 3),
                     Text(
                       '${state.members.length} members \u00b7 2 shared addresses \u00b7 9 services since 2024',
-                      style: DvText.body(size: 12, color: const Color(0xFFBDB5D6)),
+                      style: DvText.body(
+                        size: 12,
+                        color: const Color(0xFFBDB5D6),
+                      ),
                     ),
                   ],
                 ),
@@ -234,13 +256,19 @@ class FamilyScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(member.name, style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                    Text(
+                      member.name,
+                      style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                    ),
                     const SizedBox(width: 6),
                     DvPill(member.role),
                   ],
                 ),
                 const SizedBox(height: 2),
-                Text(member.subtitle, style: DvText.body(size: 12, color: DvColors.ink2)),
+                Text(
+                  member.subtitle,
+                  style: DvText.body(size: 12, color: DvColors.ink2),
+                ),
               ],
             ),
           ),
@@ -250,8 +278,15 @@ class FamilyScreen extends StatelessWidget {
   }
 }
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  String _language = 'English';
 
   @override
   Widget build(BuildContext context) {
@@ -271,7 +306,10 @@ class AccountScreen extends StatelessWidget {
                   children: [
                     Text('Sharad Kulkarni', style: DvText.display(size: 21)),
                     const SizedBox(height: 4),
-                    Text('+91 98204 41207 \u00b7 Thane West', style: DvText.mono(size: 11, color: DvColors.ink3)),
+                    Text(
+                      '+91 98204 41207 \u00b7 Thane West',
+                      style: DvText.mono(size: 11, color: DvColors.ink3),
+                    ),
                   ],
                 ),
               ),
@@ -282,13 +320,36 @@ class AccountScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
             child: Column(
               children: [
-                _menuRow(Icons.person_outline, 'Personal details'),
+                _menuRow(
+                  Icons.person_outline,
+                  'Personal details',
+                  onTap: () => _showAccountMessage(
+                    'Personal details are managed securely by DivyaSeva.',
+                  ),
+                ),
                 const DvDivider(),
-                _menuRow(Icons.location_on_outlined, 'Addresses', trailing: '2 saved'),
+                _menuRow(
+                  Icons.location_on_outlined,
+                  'Addresses',
+                  trailing: '2 saved',
+                  onTap: () => _showAccountMessage(
+                    'Your two saved addresses are available during booking.',
+                  ),
+                ),
                 const DvDivider(),
-                _menuRow(Icons.family_restroom, 'Family Dharma Account', onTap: () => context.go(Routes.familyPath)),
+                _menuRow(
+                  Icons.family_restroom,
+                  'Family Dharma Account',
+                  onTap: () => context.go(Routes.familyPath),
+                ),
                 const DvDivider(),
-                _menuRow(Icons.currency_rupee, 'Payments & refunds'),
+                _menuRow(
+                  Icons.currency_rupee,
+                  'Payments & refunds',
+                  onTap: () => _showAccountMessage(
+                    'Payment history and refunds will appear here.',
+                  ),
+                ),
               ],
             ),
           ),
@@ -297,11 +358,28 @@ class AccountScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
             child: Column(
               children: [
-                _menuRow(Icons.translate, 'Language', trailing: 'English'),
+                _menuRow(
+                  Icons.translate,
+                  'Language',
+                  trailing: _language,
+                  onTap: _chooseLanguage,
+                ),
                 const DvDivider(),
-                _menuRow(Icons.wb_sunny_outlined, 'Reminders & festival alerts'),
+                _menuRow(
+                  Icons.wb_sunny_outlined,
+                  'Reminders & festival alerts',
+                  onTap: () => _showAccountMessage(
+                    'Festival reminders are currently enabled.',
+                  ),
+                ),
                 const DvDivider(),
-                _menuRow(Icons.lock_outline, 'Privacy & my data'),
+                _menuRow(
+                  Icons.lock_outline,
+                  'Privacy & my data',
+                  onTap: () => _showAccountMessage(
+                    'Your birth and horoscope details stay private.',
+                  ),
+                ),
                 const DvDivider(),
                 _menuRow(
                   Icons.mail_outline,
@@ -319,13 +397,20 @@ class AccountScreen extends StatelessWidget {
             onTap: () => context.go(Routes.partnerDashboardPath),
             child: Row(
               children: [
-                const Icon(Icons.description_outlined, size: 19, color: DvColors.ink2),
+                const Icon(
+                  Icons.description_outlined,
+                  size: 19,
+                  color: DvColors.ink2,
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Are you a Pandit?', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                      Text(
+                        'Are you a Pandit?',
+                        style: DvText.body(size: 13, weight: FontWeight.w700),
+                      ),
                       const SizedBox(height: 3),
                       Text(
                         'Join DivyaSeva \u2014 set your own dakshina, get bookings near you, keep your calendar in one place.',
@@ -350,7 +435,45 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _menuRow(IconData icon, String label, {String? trailing, VoidCallback? onTap}) {
+  Future<void> _chooseLanguage() async {
+    final language = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const ListTile(title: Text('Choose app language')),
+            for (final language in const ['English', 'Hindi', 'Marathi'])
+              ListTile(
+                leading: Icon(
+                  language == _language
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_off,
+                ),
+                title: Text(language),
+                onTap: () => Navigator.pop(context, language),
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+    if (language != null) setState(() => _language = language);
+  }
+
+  void _showAccountMessage(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  Widget _menuRow(
+    IconData icon,
+    String label, {
+    String? trailing,
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -360,9 +483,17 @@ class AccountScreen extends StatelessWidget {
           children: [
             Icon(icon, size: 19, color: DvColors.ink2),
             const SizedBox(width: 14),
-            Expanded(child: Text(label, style: DvText.body(size: 13.5, weight: FontWeight.w600))),
+            Expanded(
+              child: Text(
+                label,
+                style: DvText.body(size: 13.5, weight: FontWeight.w600),
+              ),
+            ),
             if (trailing != null) ...[
-              Text(trailing, style: DvText.body(size: 12, color: DvColors.ink3)),
+              Text(
+                trailing,
+                style: DvText.body(size: 12, color: DvColors.ink3),
+              ),
               const SizedBox(width: 6),
             ],
             const Icon(Icons.chevron_right, size: 18, color: DvColors.ink3),
@@ -396,7 +527,11 @@ class SupportScreen extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.phone, size: 19, color: DvColors.kumDeep),
+                        const Icon(
+                          Icons.phone,
+                          size: 19,
+                          color: DvColors.kumDeep,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
@@ -404,12 +539,19 @@ class SupportScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Service is today and something is wrong',
-                                style: DvText.body(size: 13.5, weight: FontWeight.w700, color: DvColors.kumDeep),
+                                style: DvText.body(
+                                  size: 13.5,
+                                  weight: FontWeight.w700,
+                                  color: DvColors.kumDeep,
+                                ),
                               ),
                               const SizedBox(height: 3),
                               Text(
                                 'Straight to a human in operations, no menu. Average pickup 40 seconds.',
-                                style: DvText.body(size: 12, color: DvColors.kumDeep),
+                                style: DvText.body(
+                                  size: 12,
+                                  color: DvColors.kumDeep,
+                                ),
                               ),
                             ],
                           ),
@@ -417,7 +559,13 @@ class SupportScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 11),
-                    const DvButton(label: 'Call operations now', small: true),
+                    DvButton(
+                      label: 'Call operations now',
+                      small: true,
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Calling operations…')),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -435,28 +583,58 @@ class SupportScreen extends StatelessWidget {
                           Expanded(
                             child: Text(
                               supportCase.title,
-                              style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                              style: DvText.body(
+                                size: 13.5,
+                                weight: FontWeight.w700,
+                              ),
                             ),
                           ),
                           DvPill(supportCase.status, tone: DvTone.amber),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text(supportCase.reference, style: DvText.mono(size: 11, color: DvColors.ink3)),
+                      Text(
+                        supportCase.reference,
+                        style: DvText.mono(size: 11, color: DvColors.ink3),
+                      ),
                       const DvDivider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Response promised by', style: DvText.body(size: 12.5, color: DvColors.ink2)),
-                          Text(supportCase.responseBy, style: DvText.mono(size: 12, weight: FontWeight.w600)),
+                          Text(
+                            'Response promised by',
+                            style: DvText.body(
+                              size: 12.5,
+                              color: DvColors.ink2,
+                            ),
+                          ),
+                          Text(
+                            supportCase.responseBy,
+                            style: DvText.mono(
+                              size: 12,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 6),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Likely outcome', style: DvText.body(size: 12.5, color: DvColors.ink2)),
-                          Text(supportCase.outcome, style: DvText.body(size: 12.5, weight: FontWeight.w700)),
+                          Text(
+                            'Likely outcome',
+                            style: DvText.body(
+                              size: 12.5,
+                              color: DvColors.ink2,
+                            ),
+                          ),
+                          Text(
+                            supportCase.outcome,
+                            style: DvText.body(
+                              size: 12.5,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -466,23 +644,40 @@ class SupportScreen extends StatelessWidget {
               const DvSectionLabel('Common topics'),
               const SizedBox(height: 10),
               DvCard(
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 2),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 2,
+                ),
                 child: Column(
                   children: [
                     for (var i = 0; i < state.topics.length; i++) ...[
                       if (i > 0) const DvDivider(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 13),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                state.topics[i],
-                                style: DvText.body(size: 13.5, weight: FontWeight.w600),
+                      InkWell(
+                        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Opening ${state.topics[i]}…'),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 13),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  state.topics[i],
+                                  style: DvText.body(
+                                    size: 13.5,
+                                    weight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
-                            ),
-                            const Icon(Icons.chevron_right, size: 18, color: DvColors.ink3),
-                          ],
+                              const Icon(
+                                Icons.chevron_right,
+                                size: 18,
+                                color: DvColors.ink3,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -490,7 +685,14 @@ class SupportScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 14),
-              const DvButton(label: 'Chat with support', variant: DvButtonVariant.ghost, small: true),
+              DvButton(
+                label: 'Chat with support',
+                variant: DvButtonVariant.ghost,
+                small: true,
+                onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Secure support chat opened.')),
+                ),
+              ),
             ],
           ),
         );

@@ -22,7 +22,10 @@ class ServiceRecordScreen extends StatelessWidget {
           title: 'Service record',
           backPath: Routes.bookingsPath,
           rightLabel: 'Share',
-          cta: DvButton(label: 'Rate this service', onTap: () => context.go(Routes.reviewPath)),
+          cta: DvButton(
+            label: 'Rate this service',
+            onTap: () => context.go(Routes.reviewPath),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -42,7 +45,9 @@ class ServiceRecordScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        Expanded(child: _metric('08:24', 'Arrived \u00b7 6 min early')),
+                        Expanded(
+                          child: _metric('08:24', 'Arrived \u00b7 6 min early'),
+                        ),
                         Expanded(child: _metric('08:31', 'Service started')),
                       ],
                     ),
@@ -72,14 +77,61 @@ class ServiceRecordScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    DvMoneyRow(label: 'Griha Pravesh \u00b7 Standard', value: '\u20b9${_money(q.base)}'),
-                    DvMoneyRow(label: 'Samagri kit \u00b7 34 items', value: '\u20b9${_money(q.samagri)}'),
-                    DvMoneyRow(label: 'Platform fee + GST', value: '\u20b9${_money(q.platform + q.gst)}'),
-                    DvMoneyRow(label: 'FIRSTPUJA', value: '\u2212 \u20b9${_money(q.discount)}', discount: true),
+                    DvMoneyRow(
+                      label: 'Griha Pravesh \u00b7 Standard',
+                      value: '\u20b9${_money(q.base)}',
+                    ),
+                    DvMoneyRow(
+                      label: 'Samagri kit \u00b7 34 items',
+                      value: '\u20b9${_money(q.samagri)}',
+                    ),
+                    DvMoneyRow(
+                      label: 'Platform fee + GST',
+                      value: '\u20b9${_money(q.platform + q.gst)}',
+                    ),
+                    DvMoneyRow(
+                      label: 'FIRSTPUJA',
+                      value: '\u2212 \u20b9${_money(q.discount)}',
+                      discount: true,
+                    ),
                     const DvDivider(),
-                    DvMoneyRow(label: 'Paid on 02 Sep', value: '\u20b9${_money(q.total)}', total: true),
+                    DvMoneyRow(
+                      label: 'Paid on 02 Sep',
+                      value: '\u20b9${_money(q.total)}',
+                      total: true,
+                    ),
                     const SizedBox(height: 12),
-                    const DvButton(label: 'Download PDF receipt', variant: DvButtonVariant.ghost, small: true),
+                    DvButton(
+                      label: 'Download PDF receipt',
+                      variant: DvButtonVariant.ghost,
+                      small: true,
+                      onTap: () => showDialog<void>(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Receipt ready'),
+                          content: const Text(
+                            'Your receipt is ready to print or save as a PDF from the device print dialog.',
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Close'),
+                            ),
+                            FilledButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Print dialog opened.'),
+                                  ),
+                                );
+                              },
+                              child: const Text('Print'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -98,9 +150,19 @@ class ServiceRecordScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        Expanded(child: _photo(const [Color(0xFFE8DCC4), Color(0xFFC9A96E)])),
+                        Expanded(
+                          child: _photo(const [
+                            Color(0xFFE8DCC4),
+                            Color(0xFFC9A96E),
+                          ]),
+                        ),
                         const SizedBox(width: 8),
-                        Expanded(child: _photo(const [Color(0xFFD9C9E0), Color(0xFF8E7BA8)])),
+                        Expanded(
+                          child: _photo(const [
+                            Color(0xFFD9C9E0),
+                            Color(0xFF8E7BA8),
+                          ]),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 9),
@@ -123,7 +185,13 @@ class ServiceRecordScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Pandit Suresh Joshi', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                          Text(
+                            'Pandit Suresh Joshi',
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             '213th completed service on DivyaSeva',
@@ -158,7 +226,11 @@ class ServiceRecordScreen extends StatelessWidget {
       aspectRatio: 4 / 3,
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: colors, begin: Alignment.topLeft, end: Alignment.bottomRight),
+          gradient: LinearGradient(
+            colors: colors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(11),
         ),
       ),
@@ -199,14 +271,19 @@ class _ReviewScreenState extends State<ReviewScreen> {
       backPath: Routes.serviceRecordPath,
       rightLabel: 'Skip',
       onRight: () => context.go(Routes.homePath),
-      cta: DvButton(label: 'Submit review', onTap: () => context.go(Routes.homePath)),
+      cta: DvButton(
+        label: 'Submit review',
+        onTap: () => context.go(Routes.homePath),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
           const Center(child: DvAvatar('SJ', size: 64)),
           const SizedBox(height: 12),
-          Center(child: Text('Rate Pandit Suresh', style: DvText.display(size: 26))),
+          Center(
+            child: Text('Rate Pandit Suresh', style: DvText.display(size: 26)),
+          ),
           const SizedBox(height: 12),
           Center(
             child: _TappableStars(
@@ -257,14 +334,20 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 Container(
                   width: 42,
                   height: 24,
-                  decoration: BoxDecoration(color: DvColors.green, borderRadius: BorderRadius.circular(999)),
+                  decoration: BoxDecoration(
+                    color: DvColors.green,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Container(
                       margin: const EdgeInsets.all(3),
                       width: 18,
                       height: 18,
-                      decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                 ),
@@ -302,7 +385,11 @@ class _ReviewScreenState extends State<ReviewScreen> {
 }
 
 class _TappableStars extends StatelessWidget {
-  const _TappableStars({required this.value, required this.onChanged, this.size = 13});
+  const _TappableStars({
+    required this.value,
+    required this.onChanged,
+    this.size = 13,
+  });
 
   final int value;
   final ValueChanged<int> onChanged;

@@ -52,11 +52,15 @@ class BookingDetailScreen extends StatelessWidget {
                         children: [
                           Text(
                             booking?.service ?? 'Griha Pravesh',
-                            style: DvText.body(size: 15.5, weight: FontWeight.w700),
+                            style: DvText.body(
+                              size: 15.5,
+                              weight: FontWeight.w700,
+                            ),
                           ),
                           const SizedBox(height: 3),
                           Text(
-                            booking?.when ?? 'Sat 12 Sep \u00b7 08:30\u201311:00',
+                            booking?.when ??
+                                'Sat 12 Sep \u00b7 08:30\u201311:00',
                             style: DvText.mono(size: 11, color: DvColors.ink3),
                           ),
                         ],
@@ -95,15 +99,39 @@ class BookingDetailScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Pandit Suresh Joshi', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
+                              Text(
+                                'Pandit Suresh Joshi',
+                                style: DvText.body(
+                                  size: 13.5,
+                                  weight: FontWeight.w700,
+                                ),
+                              ),
                               const SizedBox(height: 2),
-                              Text('Marathi \u00b7 4.2 km away', style: DvText.body(size: 12, color: DvColors.ink2)),
+                              Text(
+                                'Marathi \u00b7 4.2 km away',
+                                style: DvText.body(
+                                  size: 12,
+                                  color: DvColors.ink2,
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        _iconButton(Icons.phone, DvColors.greenSoft, DvColors.green),
+                        _iconButton(
+                          context,
+                          Icons.phone,
+                          DvColors.greenSoft,
+                          DvColors.green,
+                          'Calling the masked DivyaSeva number…',
+                        ),
                         const SizedBox(width: 8),
-                        _iconButton(Icons.chat_bubble_outline, DvColors.line2, DvColors.ink2),
+                        _iconButton(
+                          context,
+                          Icons.chat_bubble_outline,
+                          DvColors.line2,
+                          DvColors.ink2,
+                          'Opening your secure chat…',
+                        ),
                       ],
                     ),
                     const SizedBox(height: 9),
@@ -122,8 +150,17 @@ class BookingDetailScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Preparation checklist', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                        Text('$ready / $total', style: DvText.mono(size: 12, color: DvColors.ink3)),
+                        Text(
+                          'Preparation checklist',
+                          style: DvText.body(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          '$ready / $total',
+                          style: DvText.mono(size: 12, color: DvColors.ink3),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -141,7 +178,10 @@ class BookingDetailScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Samagri kit', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                        Text(
+                          'Samagri kit',
+                          style: DvText.body(size: 13, weight: FontWeight.w700),
+                        ),
                         const SizedBox(height: 2),
                         Text(
                           '34 items \u00b7 reserved \u00b7 out for delivery 11 Sep',
@@ -156,8 +196,33 @@ class BookingDetailScreen extends StatelessWidget {
               const SizedBox(height: 12),
               Row(
                 children: [
-                  const Expanded(
-                    child: DvButton(label: 'Reschedule', variant: DvButtonVariant.ghost, small: true),
+                  Expanded(
+                    child: DvButton(
+                      label: 'Reschedule',
+                      variant: DvButtonVariant.ghost,
+                      small: true,
+                      onTap: () async {
+                        final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 90),
+                          ),
+                          initialDate: DateTime.now().add(
+                            const Duration(days: 7),
+                          ),
+                        );
+                        if (date != null && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Reschedule request started for ${date.day}/${date.month}.',
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ),
                   const SizedBox(width: 9),
                   Expanded(
@@ -172,9 +237,43 @@ class BookingDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 14),
               Center(
-                child: Text(
-                  'Cancel booking',
-                  style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum),
+                child: TextButton(
+                  onPressed: () async {
+                    final cancel = await showDialog<bool>(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Cancel booking?'),
+                        content: const Text(
+                          'Your cancellation policy and refund amount will be shown before confirming.',
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, false),
+                            child: const Text('Keep booking'),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.pop(context, true),
+                            child: const Text('Continue'),
+                          ),
+                        ],
+                      ),
+                    );
+                    if (cancel == true && context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Cancellation request started.'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text(
+                    'Cancel booking',
+                    style: DvText.body(
+                      size: 12,
+                      weight: FontWeight.w700,
+                      color: DvColors.kum,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -184,12 +283,31 @@ class BookingDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _iconButton(IconData icon, Color bg, Color fg) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(12)),
-      child: Icon(icon, size: 17, color: fg),
+  Widget _iconButton(
+    BuildContext context,
+    IconData icon,
+    Color bg,
+    Color fg,
+    String message,
+  ) {
+    return Semantics(
+      button: true,
+      label: message,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () => ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(message))),
+        child: Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: bg,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon, size: 17, color: fg),
+        ),
+      ),
     );
   }
 }
@@ -208,6 +326,21 @@ class PreparationScreen extends StatelessWidget {
           title: 'Get ready',
           backPath: Routes.bookingDetailPath,
           rightLabel: 'Print',
+          onRight: () => showDialog<void>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('Print checklist'),
+              content: const Text(
+                'The checklist is ready to print. Use your browser or device print dialog to save it as a PDF.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Close'),
+                ),
+              ],
+            ),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -219,8 +352,17 @@ class PreparationScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('$ready of $total ready', style: DvText.body(size: 13.5, weight: FontWeight.w700)),
-                        Text('4 days left', style: DvText.mono(size: 12, color: DvColors.ink3)),
+                        Text(
+                          '$ready of $total ready',
+                          style: DvText.body(
+                            size: 13.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          '4 days left',
+                          style: DvText.mono(size: 12, color: DvColors.ink3),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -237,7 +379,9 @@ class PreparationScreen extends StatelessWidget {
                     for (var i = 0; i < state.checklist.length; i++)
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () => context.read<BookingDetailCubit>().toggleChecklistItem(i),
+                        onTap: () => context
+                            .read<BookingDetailCubit>()
+                            .toggleChecklistItem(i),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6),
                           child: Row(
@@ -248,20 +392,31 @@ class PreparationScreen extends StatelessWidget {
                                 height: 20,
                                 margin: const EdgeInsets.only(top: 1),
                                 decoration: BoxDecoration(
-                                  color: state.checklist[i].done ? DvColors.green : DvColors.surface,
+                                  color: state.checklist[i].done
+                                      ? DvColors.green
+                                      : DvColors.surface,
                                   border: Border.all(
-                                    color: state.checklist[i].done ? DvColors.green : DvColors.line,
+                                    color: state.checklist[i].done
+                                        ? DvColors.green
+                                        : DvColors.line,
                                     width: 1.4,
                                   ),
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: state.checklist[i].done
-                                    ? const Icon(Icons.check, size: 13, color: Colors.white)
+                                    ? const Icon(
+                                        Icons.check,
+                                        size: 13,
+                                        color: Colors.white,
+                                      )
                                     : null,
                               ),
                               const SizedBox(width: 10),
                               Expanded(
-                                child: Text(state.checklist[i].label, style: DvText.body(size: 13)),
+                                child: Text(
+                                  state.checklist[i].label,
+                                  style: DvText.body(size: 13),
+                                ),
                               ),
                             ],
                           ),
@@ -299,10 +454,11 @@ class PreparationScreen extends StatelessWidget {
                     'Is the milk cow milk? Do we need the whole family present? Send these to Pandit Suresh now rather than on the morning.',
               ),
               const SizedBox(height: 12),
-              const DvButton(
+              DvButton(
                 label: 'Ask Pandit Suresh a question',
                 variant: DvButtonVariant.ghost,
                 small: true,
+                onTap: () => context.go(Routes.supportPath),
               ),
             ],
           ),
@@ -329,7 +485,10 @@ class TrackingScreen extends StatelessWidget {
               DvCard(
                 color: DvColors.greenSoft,
                 borderColor: DvColors.green,
-                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 13),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 13,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -340,7 +499,11 @@ class TrackingScreen extends StatelessWidget {
                         const SizedBox(height: 6),
                         Text(
                           'Arriving 08:22',
-                          style: DvText.body(size: 16.5, weight: FontWeight.w700, color: DvColors.greenDeep),
+                          style: DvText.body(
+                            size: 16.5,
+                            weight: FontWeight.w700,
+                            color: DvColors.greenDeep,
+                          ),
                         ),
                         const SizedBox(height: 2),
                         Text(
@@ -353,8 +516,18 @@ class TrackingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text('6', style: DvText.mono(size: 26, weight: FontWeight.w600, color: DvColors.green)),
-                        Text(' min', style: DvText.body(size: 12, color: DvColors.green)),
+                        Text(
+                          '6',
+                          style: DvText.mono(
+                            size: 26,
+                            weight: FontWeight.w600,
+                            color: DvColors.green,
+                          ),
+                        ),
+                        Text(
+                          ' min',
+                          style: DvText.body(size: 12, color: DvColors.green),
+                        ),
                       ],
                     ),
                   ],
@@ -374,18 +547,39 @@ class TrackingScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Pandit ${booking?.pandit ?? 'Suresh Joshi'}',
-                            style: DvText.body(size: 13.5, weight: FontWeight.w700),
+                            style: DvText.body(
+                              size: 13.5,
+                              weight: FontWeight.w700,
+                            ),
                           ),
                           const SizedBox(height: 2),
-                          Text('Left Majiwada at 08:04', style: DvText.body(size: 12, color: DvColors.ink2)),
+                          Text(
+                            'Left Majiwada at 08:04',
+                            style: DvText.body(size: 12, color: DvColors.ink2),
+                          ),
                         ],
                       ),
                     ),
-                    Container(
-                      width: 38,
-                      height: 38,
-                      decoration: BoxDecoration(color: DvColors.green, borderRadius: BorderRadius.circular(13)),
-                      child: const Icon(Icons.phone, size: 17, color: Colors.white),
+                    InkWell(
+                      borderRadius: BorderRadius.circular(13),
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Calling the masked DivyaSeva number…'),
+                        ),
+                      ),
+                      child: Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: DvColors.green,
+                          borderRadius: BorderRadius.circular(13),
+                        ),
+                        child: const Icon(
+                          Icons.phone,
+                          size: 17,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -417,7 +611,11 @@ class TrackingScreen extends StatelessWidget {
                   onTap: () => context.go(Routes.supportPath),
                   child: Text(
                     'Something is wrong \u2014 get help now',
-                    style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum),
+                    style: DvText.body(
+                      size: 12,
+                      weight: FontWeight.w700,
+                      color: DvColors.kum,
+                    ),
                   ),
                 ),
               ),
@@ -452,14 +650,24 @@ class TrackingScreen extends StatelessWidget {
               ),
             ),
           ),
-          const Positioned(right: 100, top: 70, child: Icon(Icons.location_on, color: DvColors.kum, size: 26)),
+          const Positioned(
+            right: 100,
+            top: 70,
+            child: Icon(Icons.location_on, color: DvColors.kum, size: 26),
+          ),
           Positioned(
             right: 12,
             bottom: 12,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(9)),
-              child: Text('2.1 km away', style: DvText.body(size: 10.5, weight: FontWeight.w700)),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(9),
+              ),
+              child: Text(
+                '2.1 km away',
+                style: DvText.body(size: 10.5, weight: FontWeight.w700),
+              ),
             ),
           ),
         ],
@@ -479,7 +687,10 @@ class BackupPanditScreen extends StatelessWidget {
       backPath: Routes.bookingDetailPath,
       cta: Column(
         children: [
-          DvButton(label: 'Accept Pandit Rameshwar', onTap: () => context.go(Routes.trackingPath)),
+          DvButton(
+            label: 'Accept Pandit Rameshwar',
+            onTap: () => context.go(Routes.trackingPath),
+          ),
           const SizedBox(height: 9),
           DvButton(
             label: 'Talk to operations instead',
@@ -495,7 +706,8 @@ class BackupPanditScreen extends StatelessWidget {
           const DvBanner(
             icon: Icons.warning_amber_rounded,
             title: 'Pandit Suresh had a family emergency',
-            body: 'He informed us at 06:41 this morning. We did not wait for you to find out.',
+            body:
+                'He informed us at 06:41 this morning. We did not wait for you to find out.',
           ),
           const SizedBox(height: 14),
           DvCard(
@@ -522,7 +734,13 @@ class BackupPanditScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Rameshwar Dixit', style: DvText.body(size: 15, weight: FontWeight.w700)),
+                          Text(
+                            'Rameshwar Dixit',
+                            style: DvText.body(
+                              size: 15,
+                              weight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             '22 years \u00b7 Marathi \u00b7 Maharashtrian tradition \u00b7 340 Griha Pravesh done',
@@ -547,7 +765,10 @@ class BackupPanditScreen extends StatelessWidget {
                 DvCard(
                   color: DvColors.line2,
                   borderColor: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   child: Text(
                     'He was on standby for Thane West this morning \u2014 that is why this took 17 minutes, not a day of phone calls.',
                     style: DvText.body(size: 12, color: DvColors.ink2),
@@ -567,11 +788,18 @@ class BackupPanditScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('UNCHANGED', style: DvText.eyebrow(color: DvColors.green)),
+                      Text(
+                        'UNCHANGED',
+                        style: DvText.eyebrow(color: DvColors.green),
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         'Your 08:30 slot\nYour address\nYour samagri kit\nYour price',
-                        style: DvText.body(size: 12, color: DvColors.greenDeep, height: 1.7),
+                        style: DvText.body(
+                          size: 12,
+                          color: DvColors.greenDeep,
+                          height: 1.7,
+                        ),
                       ),
                     ],
                   ),
@@ -585,11 +813,18 @@ class BackupPanditScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('CHANGED', style: DvText.eyebrow(color: DvColors.amber)),
+                      Text(
+                        'CHANGED',
+                        style: DvText.eyebrow(color: DvColors.amber),
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         'The Pandit\nArrival now 08:15\nNew contact number\nNothing else',
-                        style: DvText.body(size: 12, color: DvColors.amberText, height: 1.7),
+                        style: DvText.body(
+                          size: 12,
+                          color: DvColors.amberText,
+                          height: 1.7,
+                        ),
                       ),
                     ],
                   ),
@@ -604,7 +839,10 @@ class BackupPanditScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Pandit Rameshwar charges \u20b95,600', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                Text(
+                  'Pandit Rameshwar charges \u20b95,600',
+                  style: DvText.body(size: 13, weight: FontWeight.w700),
+                ),
                 const SizedBox(height: 3),
                 Text(
                   'You still pay \u20b95,100. DivyaSeva covers the \u20b9500 difference \u2014 a cancellation is our failure, not your cost.',

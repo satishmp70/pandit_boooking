@@ -69,7 +69,9 @@ void main() {
     expect(find.text('Sharad Kulkarni'), findsOneWidget);
   });
 
-  testWidgets('home opens the concierge and the service detail', (tester) async {
+  testWidgets('home opens the concierge and the service detail', (
+    tester,
+  ) async {
     di.init();
     await _reachHome(tester);
 
@@ -101,7 +103,9 @@ void main() {
     expect(find.text('Continue to date and muhurat'), findsOneWidget);
   });
 
-  testWidgets('completes every booking phase with entered selections', (tester) async {
+  testWidgets('completes every booking phase with entered selections', (
+    tester,
+  ) async {
     di.init();
     await _reachHomeWithEnteredData(tester);
 
@@ -152,5 +156,55 @@ void main() {
     await tester.tap(find.textContaining('Pay ₹'));
     await tester.pumpAndSettle();
     expect(find.text('Your Pandit is booked'), findsOneWidget);
+  });
+
+  testWidgets('account language switch updates the selected language', (
+    tester,
+  ) async {
+    di.init();
+    await _reachHome(tester);
+
+    await tester.tap(find.text('Account').last);
+    await tester.pumpAndSettle();
+    expect(find.text('Language'), findsOneWidget);
+    expect(find.text('English'), findsOneWidget);
+
+    await tester.tap(find.text('Language'));
+    await tester.pumpAndSettle();
+    expect(find.text('Choose app language'), findsOneWidget);
+    await tester.tap(find.text('Marathi').last);
+    await tester.pumpAndSettle();
+    expect(find.text('Marathi'), findsOneWidget);
+  });
+
+  testWidgets('preparation checklist and print actions respond', (
+    tester,
+  ) async {
+    di.init();
+    await _reachHome(tester);
+
+    await _tapVisible(tester, find.textContaining('Preparation checklist'));
+    await tester.pumpAndSettle();
+    await _tapVisible(tester, find.text('Preparation checklist'));
+    await tester.pumpAndSettle();
+    expect(find.text('Get ready'), findsOneWidget);
+
+    await tester.tap(find.text('Print'));
+    await tester.pumpAndSettle();
+    expect(find.text('Print checklist'), findsOneWidget);
+    await tester.tap(find.text('Close'));
+    await tester.pumpAndSettle();
+    final milk = find.text('1 litre fresh milk');
+    await tester.scrollUntilVisible(
+      milk,
+      100,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(milk);
+    await tester.pumpAndSettle();
+    expect(find.text('4 of 7 ready'), findsOneWidget);
+    await tester.tap(find.text('Ask Pandit Suresh a question'));
+    await tester.pumpAndSettle();
+    expect(find.text('Help & support'), findsOneWidget);
   });
 }

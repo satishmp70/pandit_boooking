@@ -25,149 +25,248 @@ class PartnerDashboardScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('PANDIT PORTAL', style: DvText.eyebrow(color: const Color(0xFF9C93BC))),
-                              const SizedBox(height: 2),
-                              Text(
-                                'Suresh Joshi ji',
-                                style: DvText.body(size: 17, weight: FontWeight.w700, color: Colors.white),
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'PANDIT PORTAL',
+                              style: DvText.eyebrow(
+                                color: const Color(0xFF9C93BC),
                               ),
-                            ],
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Suresh Joshi ji',
+                              style: DvText.body(
+                                size: 17,
+                                weight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const DvPill('Available today', tone: DvTone.indigo),
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _stat(
+                            '${dashboard?.jobsToday ?? 0}',
+                            'Jobs today',
                           ),
-                          const DvPill('Available today', tone: DvTone.indigo),
-                        ],
-                      ),
-                      const SizedBox(height: 14),
-                      Row(
-                        children: [
-                          Expanded(child: _stat('${dashboard?.jobsToday ?? 0}', 'Jobs today')),
-                          const SizedBox(width: 8),
-                          Expanded(child: _stat(dashboard?.weekEarnings ?? '\u2014', 'This week')),
-                          const SizedBox(width: 8),
-                          Expanded(child: _stat('${dashboard?.onTime ?? 0}%', 'On time', highlight: true)),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _stat(
+                            dashboard?.weekEarnings ?? '\u2014',
+                            'This week',
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: _stat(
+                            '${dashboard?.onTime ?? 0}%',
+                            'On time',
+                            highlight: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: state.status == AsyncStatus.loading
-                      ? const Center(child: CircularProgressIndicator(color: DvColors.kum))
-                      : SingleChildScrollView(
-                          padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DvCard(
-                                borderColor: DvColors.kum,
-                                onTap: () => context.go(Routes.partnerRequestPath),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('NEW REQUEST', style: DvText.eyebrow(color: DvColors.kum)),
-                                        const DvPill('Expires in 4:12', tone: DvTone.kum),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      'Griha Pravesh \u00b7 Sat 12 Sep, 08:30',
-                                      style: DvText.body(size: 14.5, weight: FontWeight.w700),
-                                    ),
-                                    const SizedBox(height: 3),
-                                    Text.rich(
-                                      TextSpan(
-                                        style: DvText.body(size: 12, color: DvColors.ink2),
-                                        children: const [
-                                          TextSpan(text: 'Majiwada, 4.2 km \u00b7 Marathi \u00b7 you earn '),
-                                          TextSpan(
-                                            text: '\u20b94,335',
-                                            style: TextStyle(fontWeight: FontWeight.w700),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 11),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: DvButton(
-                                            label: 'Accept',
-                                            small: true,
-                                            onTap: () => context.go(Routes.partnerJobPath),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 9),
-                                        const Expanded(
-                                          child: DvButton(label: 'Decline', variant: DvButtonVariant.ghost, small: true),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              const DvSectionLabel('Today'),
-                              const SizedBox(height: 10),
-                              for (final job in dashboard?.jobs ?? const []) ...[
-                                DvCard(
-                                  onTap: () => context.go(Routes.partnerJobPath),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+              Expanded(
+                child: state.status == AsyncStatus.loading
+                    ? const Center(
+                        child: CircularProgressIndicator(color: DvColors.kum),
+                      )
+                    : SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(18, 16, 18, 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DvCard(
+                              borderColor: DvColors.kum,
+                              onTap: () =>
+                                  context.go(Routes.partnerRequestPath),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(job.title, style: DvText.body(size: 14, weight: FontWeight.w700)),
-                                          const SizedBox(height: 3),
-                                          Text(job.detail, style: DvText.mono(size: 11, color: DvColors.ink3)),
-                                        ],
+                                      Text(
+                                        'NEW REQUEST',
+                                        style: DvText.eyebrow(
+                                          color: DvColors.kum,
+                                        ),
                                       ),
-                                      DvPill(
-                                        job.badge,
-                                        tone: job.badgeTone == 'green' ? DvTone.green : DvTone.neutral,
+                                      const DvPill(
+                                        'Expires in 4:12',
+                                        tone: DvTone.kum,
                                       ),
                                     ],
                                   ),
-                                ),
-                                const SizedBox(height: 12),
-                              ],
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    'Griha Pravesh \u00b7 Sat 12 Sep, 08:30',
+                                    style: DvText.body(
+                                      size: 14.5,
+                                      weight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text.rich(
+                                    TextSpan(
+                                      style: DvText.body(
+                                        size: 12,
+                                        color: DvColors.ink2,
+                                      ),
+                                      children: const [
+                                        TextSpan(
+                                          text:
+                                              'Majiwada, 4.2 km \u00b7 Marathi \u00b7 you earn ',
+                                        ),
+                                        TextSpan(
+                                          text: '\u20b94,335',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 11),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: DvButton(
+                                          label: 'Accept',
+                                          small: true,
+                                          onTap: () =>
+                                              context.go(Routes.partnerJobPath),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 9),
+                                      Expanded(
+                                        child: DvButton(
+                                          label: 'Decline',
+                                          variant: DvButtonVariant.ghost,
+                                          small: true,
+                                          onTap: () =>
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                    'Request declined.',
+                                                  ),
+                                                ),
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            const DvSectionLabel('Today'),
+                            const SizedBox(height: 10),
+                            for (final job in dashboard?.jobs ?? const []) ...[
                               DvCard(
-                                color: DvColors.brassSoft,
-                                borderColor: const Color(0xFFEBDCB4),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                onTap: () => context.go(Routes.partnerJobPath),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('DEMAND NEAR YOU', style: DvText.eyebrow(color: DvColors.brass)),
-                                    const SizedBox(height: 7),
-                                    Text(
-                                      'Griha Pravesh requests in Thane West are up 3x this weekend',
-                                      style: DvText.body(size: 13, weight: FontWeight.w700, color: DvColors.brassText),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          job.title,
+                                          style: DvText.body(
+                                            size: 14,
+                                            weight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 3),
+                                        Text(
+                                          job.detail,
+                                          style: DvText.mono(
+                                            size: 11,
+                                            color: DvColors.ink3,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 3),
-                                    Text(
-                                      '14 searches went unserved on Sat morning. Opening 07:00\u201312:00 could add about \u20b910,200.',
-                                      style: DvText.body(size: 12, color: DvColors.brassText),
-                                    ),
-                                    const SizedBox(height: 11),
-                                    const DvButton(
-                                      label: 'Open Saturday morning',
-                                      variant: DvButtonVariant.ghost,
-                                      small: true,
+                                    DvPill(
+                                      job.badge,
+                                      tone: job.badgeTone == 'green'
+                                          ? DvTone.green
+                                          : DvTone.neutral,
                                     ),
                                   ],
                                 ),
                               ),
+                              const SizedBox(height: 12),
                             ],
-                          ),
+                            DvCard(
+                              color: DvColors.brassSoft,
+                              borderColor: const Color(0xFFEBDCB4),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'DEMAND NEAR YOU',
+                                    style: DvText.eyebrow(
+                                      color: DvColors.brass,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 7),
+                                  Text(
+                                    'Griha Pravesh requests in Thane West are up 3x this weekend',
+                                    style: DvText.body(
+                                      size: 13,
+                                      weight: FontWeight.w700,
+                                      color: DvColors.brassText,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 3),
+                                  Text(
+                                    '14 searches went unserved on Sat morning. Opening 07:00\u201312:00 could add about \u20b910,200.',
+                                    style: DvText.body(
+                                      size: 12,
+                                      color: DvColors.brassText,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 11),
+                                  DvButton(
+                                    label: 'Open Saturday morning',
+                                    variant: DvButtonVariant.ghost,
+                                    small: true,
+                                    onTap: () => ScaffoldMessenger.of(context)
+                                        .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Saturday morning availability opened.',
+                                            ),
+                                          ),
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                ),
+                      ),
+              ),
             ],
           ),
           bottomNavigationBar: Container(
@@ -185,7 +284,11 @@ class PartnerDashboardScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _partnerTab(Icons.wb_sunny_outlined, 'Today', true),
-                      _partnerTab(Icons.calendar_today_outlined, 'Calendar', false),
+                      _partnerTab(
+                        Icons.calendar_today_outlined,
+                        'Calendar',
+                        false,
+                      ),
                       Expanded(
                         child: Transform.translate(
                           offset: const Offset(0, -22),
@@ -200,7 +303,11 @@ class PartnerDashboardScreen extends StatelessWidget {
                               ),
                               borderRadius: BorderRadius.circular(16),
                             ),
-                            child: const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                            child: const Icon(
+                              Icons.auto_awesome,
+                              color: Colors.white,
+                              size: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -220,7 +327,10 @@ class PartnerDashboardScreen extends StatelessWidget {
   Widget _stat(String value, String label, {bool highlight = false}) {
     return Container(
       padding: const EdgeInsets.all(11),
-      decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.circular(13)),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        borderRadius: BorderRadius.circular(13),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -233,7 +343,10 @@ class PartnerDashboardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          Text(label, style: DvText.body(size: 10.5, color: const Color(0xFFBDB5D6))),
+          Text(
+            label,
+            style: DvText.body(size: 10.5, color: const Color(0xFFBDB5D6)),
+          ),
         ],
       ),
     );
@@ -246,7 +359,14 @@ class PartnerDashboardScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 20, color: color),
           const SizedBox(height: 4),
-          Text(label, style: DvText.body(size: 9.5, weight: FontWeight.w600, color: color)),
+          Text(
+            label,
+            style: DvText.body(
+              size: 9.5,
+              weight: FontWeight.w600,
+              color: color,
+            ),
+          ),
         ],
       ),
     );
@@ -263,7 +383,10 @@ class PartnerRequestScreen extends StatelessWidget {
       backPath: Routes.partnerDashboardPath,
       cta: Column(
         children: [
-          DvButton(label: 'Accept \u00b7 \u20b94,335', onTap: () => context.go(Routes.partnerJobPath)),
+          DvButton(
+            label: 'Accept \u00b7 \u20b94,335',
+            onTap: () => context.go(Routes.partnerJobPath),
+          ),
           const SizedBox(height: 9),
           DvButton(
             label: 'Decline with reason',
@@ -280,14 +403,18 @@ class PartnerRequestScreen extends StatelessWidget {
             tone: DvTone.kum,
             icon: Icons.access_time,
             title: 'Respond within 4:12',
-            body: 'After that it goes to the next Pandit. Fast acceptance improves your ranking.',
+            body:
+                'After that it goes to the next Pandit. Fast acceptance improves your ranking.',
           ),
           const SizedBox(height: 14),
           DvCard(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Griha Pravesh \u00b7 Standard', style: DvText.body(size: 16, weight: FontWeight.w700)),
+                Text(
+                  'Griha Pravesh \u00b7 Standard',
+                  style: DvText.body(size: 16, weight: FontWeight.w700),
+                ),
                 const SizedBox(height: 3),
                 Text(
                   '2 hr 30 min \u00b7 Maharashtrian tradition \u00b7 Marathi',
@@ -310,9 +437,16 @@ class PartnerRequestScreen extends StatelessWidget {
                 DvSectionLabel('Your earning'),
                 SizedBox(height: 8),
                 DvMoneyRow(label: 'Your dakshina', value: '\u20b95,100'),
-                DvMoneyRow(label: 'DivyaSeva commission (15%)', value: '\u2212 \u20b9765'),
+                DvMoneyRow(
+                  label: 'DivyaSeva commission (15%)',
+                  value: '\u2212 \u20b9765',
+                ),
                 DvDivider(),
-                DvMoneyRow(label: 'You receive', value: '\u20b94,335', total: true),
+                DvMoneyRow(
+                  label: 'You receive',
+                  value: '\u20b94,335',
+                  total: true,
+                ),
               ],
             ),
           ),
@@ -388,12 +522,21 @@ class PartnerJobScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Next step in the service', style: DvText.body(size: 12, color: DvColors.ink2)),
+              Text(
+                'Next step in the service',
+                style: DvText.body(size: 12, color: DvColors.ink2),
+              ),
               Text('08:22', style: DvText.mono(size: 12, color: DvColors.ink2)),
             ],
           ),
           const SizedBox(height: 9),
-          const DvButton(label: 'Mark arrived', variant: DvButtonVariant.indigo),
+          DvButton(
+            label: 'Mark arrived',
+            variant: DvButtonVariant.indigo,
+            onTap: () => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Arrival recorded.'))),
+          ),
         ],
       ),
       child: Column(
@@ -409,11 +552,18 @@ class PartnerJobScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('CURRENT STATUS', style: DvText.eyebrow(color: DvColors.green)),
+                    Text(
+                      'CURRENT STATUS',
+                      style: DvText.eyebrow(color: DvColors.green),
+                    ),
                     const SizedBox(height: 4),
                     Text(
                       'En route \u00b7 2.1 km away',
-                      style: DvText.body(size: 16, weight: FontWeight.w700, color: DvColors.greenDeep),
+                      style: DvText.body(
+                        size: 16,
+                        weight: FontWeight.w700,
+                        color: DvColors.greenDeep,
+                      ),
                     ),
                   ],
                 ),
@@ -421,8 +571,18 @@ class PartnerJobScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text('6', style: DvText.mono(size: 26, weight: FontWeight.w600, color: DvColors.green)),
-                    Text(' min', style: DvText.body(size: 12, color: DvColors.green)),
+                    Text(
+                      '6',
+                      style: DvText.mono(
+                        size: 26,
+                        weight: FontWeight.w600,
+                        color: DvColors.green,
+                      ),
+                    ),
+                    Text(
+                      ' min',
+                      style: DvText.body(size: 12, color: DvColors.green),
+                    ),
                   ],
                 ),
               ],
@@ -439,9 +599,18 @@ class PartnerJobScreen extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Griha Pravesh \u00b7 Standard', style: DvText.body(size: 14.5, weight: FontWeight.w700)),
+                        Text(
+                          'Griha Pravesh \u00b7 Standard',
+                          style: DvText.body(
+                            size: 14.5,
+                            weight: FontWeight.w700,
+                          ),
+                        ),
                         const SizedBox(height: 3),
-                        Text('DV-PB-24817 \u00b7 08:30\u201311:00', style: DvText.mono(size: 11, color: DvColors.ink3)),
+                        Text(
+                          'DV-PB-24817 \u00b7 08:30\u201311:00',
+                          style: DvText.mono(size: 11, color: DvColors.ink3),
+                        ),
                       ],
                     ),
                     const DvPill('\u20b94,335'),
@@ -450,7 +619,11 @@ class PartnerJobScreen extends StatelessWidget {
                 const DvDivider(),
                 Row(
                   children: [
-                    const Icon(Icons.location_on_outlined, size: 18, color: DvColors.ink2),
+                    const Icon(
+                      Icons.location_on_outlined,
+                      size: 18,
+                      color: DvColors.ink2,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
@@ -458,7 +631,10 @@ class PartnerJobScreen extends StatelessWidget {
                         children: [
                           Text(
                             'B-1204, Rustomjee Urbania, Majiwada',
-                            style: DvText.body(size: 13, weight: FontWeight.w600),
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w600,
+                            ),
                           ),
                           const SizedBox(height: 2),
                           Text(
@@ -468,7 +644,11 @@ class PartnerJobScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Icon(Icons.navigation, size: 18, color: DvColors.indigo),
+                    const Icon(
+                      Icons.navigation,
+                      size: 18,
+                      color: DvColors.indigo,
+                    ),
                   ],
                 ),
                 const DvDivider(),
@@ -480,7 +660,13 @@ class PartnerJobScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Sharad Kulkarni', style: DvText.body(size: 13, weight: FontWeight.w600)),
+                          Text(
+                            'Sharad Kulkarni',
+                            style: DvText.body(
+                              size: 13,
+                              weight: FontWeight.w600,
+                            ),
+                          ),
                           const SizedBox(height: 2),
                           Text(
                             'Masked line \u00b7 number not shared',
@@ -492,8 +678,15 @@ class PartnerJobScreen extends StatelessWidget {
                     Container(
                       width: 36,
                       height: 36,
-                      decoration: BoxDecoration(color: DvColors.greenSoft, borderRadius: BorderRadius.circular(12)),
-                      child: const Icon(Icons.phone, size: 16, color: DvColors.green),
+                      decoration: BoxDecoration(
+                        color: DvColors.greenSoft,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.phone,
+                        size: 16,
+                        color: DvColors.green,
+                      ),
                     ),
                   ],
                 ),
@@ -524,10 +717,18 @@ class PartnerJobScreen extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: item.$2 ? const Icon(Icons.check, size: 13, color: Colors.white) : null,
+                          child: item.$2
+                              ? const Icon(
+                                  Icons.check,
+                                  size: 13,
+                                  color: Colors.white,
+                                )
+                              : null,
                         ),
                         const SizedBox(width: 10),
-                        Expanded(child: Text(item.$1, style: DvText.body(size: 13))),
+                        Expanded(
+                          child: Text(item.$1, style: DvText.body(size: 13)),
+                        ),
                       ],
                     ),
                   ),
@@ -544,7 +745,10 @@ class PartnerJobScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Cannot make it?', style: DvText.body(size: 13, weight: FontWeight.w700)),
+                    Text(
+                      'Cannot make it?',
+                      style: DvText.body(size: 13, weight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 3),
                     Text(
                       'Tell us now \u2014 a standby Pandit can still reach in time.',
@@ -552,7 +756,14 @@ class PartnerJobScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text('Report', style: DvText.body(size: 12, weight: FontWeight.w700, color: DvColors.kum)),
+                Text(
+                  'Report',
+                  style: DvText.body(
+                    size: 12,
+                    weight: FontWeight.w700,
+                    color: DvColors.kum,
+                  ),
+                ),
               ],
             ),
           ),
